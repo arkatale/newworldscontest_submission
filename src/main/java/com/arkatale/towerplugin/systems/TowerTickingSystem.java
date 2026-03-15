@@ -39,7 +39,7 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
         var pos = playerPosition.add(direction);
 
         var blockAtPos = world.getBlockType(pos.toVector3i());
-        if(blockAtPos != BlockType.EMPTY){
+        if(blockAtPos == BlockType.EMPTY){
             world.setBlock((int) pos.x, (int) pos.y, (int) pos.z, "Plant_Crop_Mana2");
         }
     }
@@ -65,6 +65,6 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 
     @Override
     public @Nullable Query<EntityStore> getQuery() {
-        return Query.and(Player.getComponentType(), TowerComponent.getComponentType() );
+        return Query.and(Player.getComponentType() );
     }
 }
