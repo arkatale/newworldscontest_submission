@@ -1,5 +1,6 @@
 package com.arkatale.towerplugin;
 
+import com.arkatale.towerplugin.component.TowerComponent;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
@@ -14,7 +15,9 @@ public class TowerPlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
+        var at_towerComponentType = this.getEntityStoreRegistry().registerComponent(new TowerComponent(), "AT_TowerComponent", TowerComponent.CODEC);
 
+        TowerComponent.setComponentType(at_towerComponentType);
     }
 
     @Override
