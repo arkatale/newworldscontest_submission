@@ -11,11 +11,11 @@ public class ExampleEvent {
         player.sendMessage(Message.raw("Welcome " + player.getDisplayName()));
         var world = player.getWorld();
         var store = world.getEntityStore();
-        world.execute(
-                () -> {
-
-                }
-        );
+//        world.execute(
+//                () -> {
+//
+//                }
+//        );
 
     }
 }

@@ -19,15 +19,15 @@ import org.jspecify.annotations.Nullable;
 
 public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
     @Override
-    public void tick(float v, int i, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer) {
-        var player = archetypeChunk.getComponent(i, Player.getComponentType());
+    public void tick(float v, int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer) {
+        var player = archetypeChunk.getComponent(index, Player.getComponentType());
         var playerTransform = store.getComponent(player.getReference(), TransformComponent.getComponentType());
-        var playerPosition = playerTransform.getPosition();
+        var playerPosition = playerTransform.getPosition().toVector3i();
         var world = player.getWorld();
 
         world.execute(
                 () -> {
-                    testBlockInRadiusForAir(world, playerPosition, 5);
+                    testBlockInRadiusForAir(world, playerPosition.toVector3d(), 5);
                 }
         );
     }
@@ -36,7 +36,7 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
         var random = Random.randInt(radius);
         var dirRandom = Random.randInt(4);
         var direction = randomDir(dirRandom);
-        var pos = playerPosition.add(direction);
+        var pos = playerPosition.clone().add(direction);
 
         var blockAtPos = world.getBlockType(pos.toVector3i());
         if(blockAtPos == BlockType.EMPTY){
@@ -45,7 +45,7 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
     }
 
     private Vector3i randomDir(int random) {
-        Vector3i dir;
+        Vector3i dir = new Vector3i(0,0,0);
         switch (random) {
             case 0:
                 dir = Vector3i.NORTH;
@@ -58,8 +58,9 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
                 break;
             default:
                 dir = Vector3i.SOUTH;
+                break;
         }
-        dir.add(Vector3i.UP);
+//        dir.add(Vector3i.UP);
         return dir;
     }
 
