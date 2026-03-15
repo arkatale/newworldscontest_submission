@@ -15,7 +15,7 @@ public class TowerPlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
-        var at_towerComponentType = this.getEntityStoreRegistry().registerComponent(new TowerComponent(), "AT_TowerComponent", TowerComponent.CODEC);
+        var at_towerComponentType = this.getEntityStoreRegistry().registerComponent(TowerComponent.class, "AT_TowerComponent", TowerComponent.CODEC);
 
         TowerComponent.setComponentType(at_towerComponentType);
     }

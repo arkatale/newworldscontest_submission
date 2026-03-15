@@ -19,6 +19,6 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 
     @Override
     public @Nullable Query<EntityStore> getQuery() {
-        return Query.and(Player.getComponentType(), TowerComponent.);
+        return Query.and(Player.getComponentType(), TowerComponent.getComponentType());
     }
 }
