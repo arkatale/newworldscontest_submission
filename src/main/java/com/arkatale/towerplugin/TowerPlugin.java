@@ -1,6 +1,7 @@
 package com.arkatale.towerplugin;
 
 import com.arkatale.towerplugin.component.TowerComponent;
+import com.arkatale.towerplugin.systems.TowerTickingSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
@@ -22,6 +23,6 @@ public class TowerPlugin extends JavaPlugin {
 
     @Override
     protected void start() {
-
+        this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem());
     }
 }
