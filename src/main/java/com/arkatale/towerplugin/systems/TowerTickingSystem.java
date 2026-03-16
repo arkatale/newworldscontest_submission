@@ -58,14 +58,18 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 
         world.execute(
                 () -> {
-                    Vector3i lastPos = lastJumpBlockForIndex.get(index);
+                    Vector3i lastPos;
+                    try{
+                        lastPos = lastJumpBlockForIndex.get(index);
 
-                    if(lastPos == null){
+                    }finally {
+                        lastJumpBlockForIndex.add(playerPosition);
                         lastPos = playerPosition;
                     }
 
-                          lastPos = testBlockInRadiusForAir(world, lastPos, 5);
+                    lastPos = testBlockInRadiusForAir(world, lastPos, 5);
                     lastJumpBlockForIndex.set(index, lastPos);
+//                    lastJumpBlockForIndex.q
                 }
         );
 
