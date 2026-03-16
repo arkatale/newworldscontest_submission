@@ -69,9 +69,16 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
         var pos = playerPosition.clone().add(direction);
 
         var blockAtPos = world.getBlockType(pos.toVector3i());
+        var blockTypeKey = getRandomMushRoomShelf();
         if(blockAtPos == BlockType.EMPTY){
-            world.setBlock((int) pos.x, (int) pos.y, (int) pos.z, "Plant_Crop_Mana2");
+            world.setBlock((int) pos.x, (int) pos.y, (int) pos.z, blockTypeKey);
         }
+    }
+
+    private String getRandomMushRoomShelf() {
+        var list = new String[] {"Plant_Crop_Mushroom_Shelve_Brown", "Plant_Crop_Mushroom_Shelve_Green", "Plant_Crop_Mushroom_Shelve_Yellow"};
+        var rand = Random.randInt(2);
+        return list[rand];
     }
 
     private Vector3i randomDir(int random) {
