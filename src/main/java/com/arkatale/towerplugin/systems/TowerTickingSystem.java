@@ -15,10 +15,12 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 
 public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
     private final ResourceType<EntityStore, TowerTickingSystem.Data<EntityStore>> resourceType = this.registerResource(TowerTickingSystem.Data.class, TowerTickingSystem.Data::new);
     private float intervalSec;
+    private ArrayList<Vector3i> lastJumpBlockForIndex = new ArrayList<Vector3i>();
 
     public TowerTickingSystem(float intervalSec) {
         this.intervalSec = intervalSec;
@@ -56,23 +58,31 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 
         world.execute(
                 () -> {
-                    testBlockInRadiusForAir(world, playerPosition.toVector3d(), 5);
+                    Vector3i lastPos = lastJumpBlockForIndex.get(index);
+
+                    if(lastPos == null){
+                        lastPos = playerPosition;
+                    }
+
+                          lastPos = testBlockInRadiusForAir(world, lastPos, 5);
+                    lastJumpBlockForIndex.set(index, lastPos);
                 }
         );
 
     }
 
-    private void testBlockInRadiusForAir(World world, Vector3d playerPosition, int radius) {
+    private Vector3i testBlockInRadiusForAir(World world, Vector3i playerPosition, int radius) {
         var random = Random.randInt(radius);
         var dirRandom = Random.randInt(4);
         var direction = randomDir(dirRandom);
         var pos = playerPosition.clone().add(direction);
 
-        var blockAtPos = world.getBlockType(pos.toVector3i());
+        var blockAtPos = world.getBlockType(pos);
         var blockTypeKey = getRandomMushRoomShelf();
         if(blockAtPos == BlockType.EMPTY){
             world.setBlock((int) pos.x, (int) pos.y, (int) pos.z, blockTypeKey);
         }
+        return pos;
     }
 
     private String getRandomMushRoomShelf() {
