@@ -30,7 +30,7 @@ public class TowerPlugin extends JavaPlugin {
 
     @Override
     protected void start() {
-        this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem());
+        this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem(5));
     }
 
 

@@ -1,10 +1,7 @@
 package com.arkatale.towerplugin.systems;
 
-import com.arkatale.towerplugin.component.TowerComponent;
 import com.google.crypto.tink.subtle.Random;
-import com.hypixel.hytale.component.ArchetypeChunk;
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.math.vector.Vector3d;
@@ -17,9 +14,41 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+
 public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
+    private final ResourceType<EntityStore, TowerTickingSystem.Data<EntityStore>> resourceType = this.registerResource(TowerTickingSystem.Data.class, TowerTickingSystem.Data::new);
+    private float intervalSec;
+
+    public TowerTickingSystem(float intervalSec) {
+        this.intervalSec = intervalSec;
+    }
+
+    public void setIntervalSec(float newInterval) {
+        this.intervalSec = newInterval;
+    }
+
+    private static class Data<EntityStore> implements Resource<com.hypixel.hytale.server.core.universe.world.storage.EntityStore> {
+        private float dt;
+
+        @Nonnull
+        public Resource<com.hypixel.hytale.server.core.universe.world.storage.EntityStore> clone() {
+            TowerTickingSystem.Data<com.hypixel.hytale.server.core.universe.world.storage.EntityStore> data = new TowerTickingSystem.Data<com.hypixel.hytale.server.core.universe.world.storage.EntityStore>();
+            data.dt = this.dt;
+            return data;
+        }
+    }
+
     @Override
-    public void tick(float v, int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer) {
+    public void tick(float dt, int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer) {
+        TowerTickingSystem.Data<EntityStore> data = (TowerTickingSystem.Data)store.getResource(this.resourceType);
+        data.dt += dt;
+        if (data.dt <= this.intervalSec) return;
+            float fullDt = data.dt;
+            data.dt = 0.0F;
+//            super.tick(fullDt, systemIndex, store);
+
+
         var player = archetypeChunk.getComponent(index, Player.getComponentType());
         var playerTransform = store.getComponent(player.getReference(), TransformComponent.getComponentType());
         var playerPosition = playerTransform.getPosition().toVector3i();
@@ -30,6 +59,7 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
                     testBlockInRadiusForAir(world, playerPosition.toVector3d(), 5);
                 }
         );
+
     }
 
     private void testBlockInRadiusForAir(World world, Vector3d playerPosition, int radius) {
@@ -60,7 +90,7 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
                 dir = Vector3i.SOUTH;
                 break;
         }
-//        dir.add(Vector3i.UP);
+        dir.add(Vector3i.UP);
         return dir;
     }
 
