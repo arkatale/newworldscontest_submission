@@ -1,5 +1,6 @@
 package com.arkatale.towerplugin.systems;
 
+import com.arkatale.towerplugin.component.TowerComponent;
 import com.google.crypto.tink.subtle.Random;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
@@ -122,6 +123,9 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 
     @Override
     public @Nullable Query<EntityStore> getQuery() {
-        return Query.and(Player.getComponentType() );
+        return Query.and(Player.getComponentType(), TowerComponent.getComponentType());
+//        return Query.and(Player.getComponentType(), Player.getComponentType().requiresComponentType(TowerComponent.getComponentType()));
+//        return Query.all(Player.getComponentType(), TowerComponent.getComponentType());
+
     }
 }
