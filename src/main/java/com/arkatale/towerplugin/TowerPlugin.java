@@ -1,5 +1,6 @@
 package com.arkatale.towerplugin;
 
+import com.arkatale.towerplugin.commands.AddRemoveTowerComponentCommand;
 import com.arkatale.towerplugin.component.TowerComponent;
 import com.arkatale.towerplugin.events.ExampleEvent;
 import com.arkatale.towerplugin.systems.TowerTickingSystem;
@@ -25,6 +26,8 @@ public class TowerPlugin extends JavaPlugin {
         TowerComponent.setComponentType(at_towerComponentType);
 
         this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, ExampleEvent::onPlayerReady);
+
+        this.getCommandRegistry().registerCommand(new AddRemoveTowerComponentCommand());
 
     }
 
