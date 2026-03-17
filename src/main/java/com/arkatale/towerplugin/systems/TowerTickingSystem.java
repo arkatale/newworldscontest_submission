@@ -44,15 +44,25 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 
     @Override
     public void tick(float dt, int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer) {
-        TowerTickingSystem.Data<EntityStore> data = (TowerTickingSystem.Data)store.getResource(this.resourceType);
+        TowerTickingSystem.Data<EntityStore> data = (TowerTickingSystem.Data) store.getResource(this.resourceType);
         data.dt += dt;
         if (data.dt <= this.intervalSec) return;
-            float fullDt = data.dt;
-            data.dt = 0.0F;
+        float fullDt = data.dt;
+        data.dt = 0.0F;
 //            super.tick(fullDt, systemIndex, store);
 
+        Player player = null;
+        try {
+            player = archetypeChunk.getComponent(index, Player.getComponentType());
 
-        var player = archetypeChunk.getComponent(index, Player.getComponentType());
+        } catch (Exception e) {
+
+            return;
+        }
+
+        if (player == null)
+            return;
+
         var playerTransform = store.getComponent(player.getReference(), TransformComponent.getComponentType());
         var playerPosition = playerTransform.getPosition().toVector3i();
         var world = player.getWorld();
@@ -65,12 +75,11 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 //                    if(lastJumpBlockForIndex.size() -1 >= index){
 
 //                    if(index +  1  <  lastJumpBlockForIndex.size()  ){
-                    if(lastJumpBlockForIndex.size()    <  index +  1  ){
+                    if (lastJumpBlockForIndex.size() < index + 1) {
                         lastJumpBlockForIndex.add(playerPosition);
                     }
 
                     lastPos = lastJumpBlockForIndex.get(index);
-
 
 
                     lastPos = testBlockInRadiusForAir(world, lastPos, 5);
