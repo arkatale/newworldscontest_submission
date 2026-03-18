@@ -81,6 +81,10 @@ public class TowerTickingSystem extends EntityTickingSystem<EntityStore> {
 
                     lastPos = lastJumpBlockForIndex.get(index);
 
+                    var distance = lastPos.distanceTo(playerPosition);
+                    if(distance > 6){
+                        lastPos = playerPosition.clone();
+                    }
 
                     lastPos = testBlockInRadiusForAir(world, lastPos, 5);
                     lastJumpBlockForIndex.set(index, lastPos);
