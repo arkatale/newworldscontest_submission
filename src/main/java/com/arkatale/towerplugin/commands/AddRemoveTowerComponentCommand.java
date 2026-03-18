@@ -22,20 +22,15 @@ public class AddRemoveTowerComponentCommand extends AbstractPlayerCommand {
 
     @Override
     protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
-//        Component<EntityStore> towerComponent = new TowerComponent();
-//        store.addComponent(playerRef, TowerComponent.getComponentType());
-//        Transform transform = new Transform(
-//                new Vector3d(1, 1, 1),      // Position
-//                new Rotation(1, pitch, 0) // Rotation, last value seems to always be 0
-//        );
-//        Teleport teleport = Teleport.createForPlayer(world, transform);
-//        store.addComponent(ref, Teleport.getComponentType(), teleport);
-        var transform = playerRef.getTransform();
-        var pos = transform.getPosition();
-        transform.setPosition(pos.clone().add(0,2,0));
-        Teleport teleport = Teleport.createForPlayer(world, transform);
-        store.addComponent(ref, Teleport.getComponentType(), teleport);
+        var comp = store.getComponent(ref, TowerComponent.getComponentType());
 
+        if(comp == null){
         store.ensureComponent(ref, TowerComponent.getComponentType());
+
+
+        }else   {
+            store.removeComponent(ref, TowerComponent.getComponentType());
+
+        }
     }
 }
