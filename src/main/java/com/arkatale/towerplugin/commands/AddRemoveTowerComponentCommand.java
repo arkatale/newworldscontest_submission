@@ -36,6 +36,6 @@ public class AddRemoveTowerComponentCommand extends AbstractPlayerCommand {
         Teleport teleport = Teleport.createForPlayer(world, transform);
         store.addComponent(ref, Teleport.getComponentType(), teleport);
 
-        store.addComponent(ref, TowerComponent.getComponentType());
+        store.ensureComponent(ref, TowerComponent.getComponentType());
     }
 }
