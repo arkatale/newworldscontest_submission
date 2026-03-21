@@ -1,20 +1,18 @@
-package com.arkatale.towerplugin;
+package com.arkatale.defenseplugin;
 
-import com.arkatale.towerplugin.commands.AddRemoveTowerComponentCommand;
-import com.arkatale.towerplugin.component.TowerComponent;
-import com.arkatale.towerplugin.events.ExampleEvent;
-import com.arkatale.towerplugin.systems.TowerTickingSystem;
+import com.arkatale.defenseplugin.commands.AddRemoveTowerComponentCommand;
+import com.arkatale.defenseplugin.component.TowerComponent;
+import com.arkatale.defenseplugin.events.ExampleEvent;
+import com.arkatale.defenseplugin.systems.TowerTickingSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 
-public class TowerPlugin extends JavaPlugin {
+public class DefensePlugin extends JavaPlugin {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    public TowerPlugin(JavaPluginInit init) {
+    public DefensePlugin(JavaPluginInit init) {
         super(init);
         LOGGER.atInfo().log("Hello from %s version %s", this.getName(), this.getManifest().getVersion().toString());
     }

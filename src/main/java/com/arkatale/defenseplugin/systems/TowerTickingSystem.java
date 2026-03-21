@@ -1,11 +1,10 @@
-package com.arkatale.towerplugin.systems;
+package com.arkatale.defenseplugin.systems;
 
-import com.arkatale.towerplugin.component.TowerComponent;
+import com.arkatale.defenseplugin.component.TowerComponent;
 import com.google.crypto.tink.subtle.Random;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
-import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.entity.entities.Player;
