@@ -1,4 +1,4 @@
-package defence;
+package com.arkatale.defenseplugin.logic;
 
 public class TowerPowerSystem {
     public boolean isBoss(){

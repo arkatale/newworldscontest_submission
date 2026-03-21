@@ -1,6 +1,6 @@
 package com.arkatale.defenseplugin.systems;
 
-import com.arkatale.defenseplugin.component.TowerComponent;
+import com.arkatale.defenseplugin.components.TowerComponent;
 import com.google.crypto.tink.subtle.Random;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;

@@ -1,4 +1,4 @@
-package com.arkatale.defenseplugin.component;
+package com.arkatale.defenseplugin.components;
 
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;

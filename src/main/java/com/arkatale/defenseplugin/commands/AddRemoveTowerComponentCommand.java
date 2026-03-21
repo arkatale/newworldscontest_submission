@@ -1,6 +1,6 @@
 package com.arkatale.defenseplugin.commands;
 
-import com.arkatale.defenseplugin.component.TowerComponent;
+import com.arkatale.defenseplugin.components.TowerComponent;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.command.system.CommandContext;

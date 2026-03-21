@@ -1,4 +1,4 @@
-package defence;
+package com.arkatale.defenseplugin.logic;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 
