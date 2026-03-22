@@ -4,16 +4,22 @@ import com.arkatale.defenseplugin.commands.AddRemoveTowerComponentCommand;
 import com.arkatale.defenseplugin.commands.StartWaves;
 import com.arkatale.defenseplugin.components.TowerComponent;
 import com.arkatale.defenseplugin.events.ExampleEvent;
+import com.arkatale.defenseplugin.logic.DefendSession;
 import com.arkatale.defenseplugin.systems.TowerTickingSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.arkatale.defenseplugin.logic.WaveManager;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class DefensePlugin extends JavaPlugin {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private WaveManager waveManager;
+    private final Map<Vector3i, DefendSession> activeSessions = new ConcurrentHashMap<>();
 
     public DefensePlugin(JavaPluginInit init) {
         super(init);
@@ -22,7 +28,7 @@ public class DefensePlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
-        waveManager = new WaveManager();
+//        waveManager = new WaveManager();
 
         var at_towerComponentType = this.getEntityStoreRegistry().registerComponent(TowerComponent.class, "AT_TowerComponent", TowerComponent.CODEC);
 
@@ -33,7 +39,8 @@ public class DefensePlugin extends JavaPlugin {
         this.getCommandRegistry().registerCommand(new AddRemoveTowerComponentCommand());
 
 
-        this.getCommandRegistry().registerCommand(new StartWaves(waveManager));
+        DefendSession defendSession = null;
+        this.getCommandRegistry().registerCommand(new StartWaves(defendSession));
 //        this.getEventRegistry().register(new WaveStartListener(waveManager));
 
     }
