@@ -11,6 +11,15 @@ public class DefendSession {
         this.waveManager = waveManager;
     }
 
+    public WaveManager getWaveManager() {
+        return waveManager;
+    }
+
+
+//    public static DefendSession checkAndStartDefendSession(Vector3i defendPosition) {
+//
+//    }
+
 //    public void add(WaveManager waveManager) {
 //    }
 }

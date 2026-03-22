@@ -1,5 +1,6 @@
 package com.arkatale.defenseplugin.commands;
 
+import com.arkatale.defenseplugin.DefensePlugin;
 import com.arkatale.defenseplugin.logic.DefendSession;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -14,11 +15,13 @@ import org.jspecify.annotations.NonNull;
 
 public class StartWaves extends AbstractPlayerCommand {
 
-    private DefendSession defendSession;
 
-    public StartWaves(DefendSession defendSession) {
+    private final DefensePlugin defensePlugin;
+
+    public StartWaves(DefensePlugin defensePlugin) {
         super("waves", "Start waves to defend the block");
-        this.defendSession = defendSession;
+
+        this.defensePlugin = defensePlugin;
     }
 
     @Override
@@ -27,6 +30,8 @@ public class StartWaves extends AbstractPlayerCommand {
 //        waveManager.startWaves(playerTransform.getPosition().toVector3i(), world);
         var placeholderPositionToDefend = playerTransform.getPosition().toVector3i();
 //        waveSessions.add(new WaveManager(placeholderPositionToDefend));
-        defendSession = new DefendSession(placeholderPositionToDefend, new WaveManager(placeholderPositionToDefend));
+//         = new DefendSession(placeholderPositionToDefend, new WaveManager(placeholderPositionToDefend));
+
+        defensePlugin.startDefenseAt(placeholderPositionToDefend, world);
     }
 }

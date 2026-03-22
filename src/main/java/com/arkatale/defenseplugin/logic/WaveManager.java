@@ -18,8 +18,9 @@ public class WaveManager {
     private EntityStore store;
     private final Vector3i toDefendPosition;
 
-    public WaveManager(Vector3i toDefendPosition) {
+    public WaveManager(Vector3i toDefendPosition, World world) {
         this.toDefendPosition = toDefendPosition;
+        this.world = world;
     }
 
     public int getCurrentWave() {
@@ -30,18 +31,18 @@ public class WaveManager {
         this.currentWave = currentWave;
     }
 
-    public boolean startWaves(Vector3i pos, World world) {
+    public boolean startWaves() {
         if (gameState == null) {
-            this.world = world;
             this.store = world.getEntityStore();
             gameState = GameState.COUNTDOWN;
             return true;
         }
+
         world.execute(
                 () -> {
                     CompletableFuture.runAsync(() ->
                             {
-                spawnWave();
+                spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
                             }
                             , CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
                 }
@@ -60,7 +61,9 @@ public class WaveManager {
     public void spawnWave(){
         for (int i = 0; i < 10; i++){
 //            world.spawnEntity()
-            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Kweebec_Sapling", null, position, rotation);
+            //TODO
+            //position and rotation
+//            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Kweebec_Sapling", null, position, rotation);
         }
     }
 }

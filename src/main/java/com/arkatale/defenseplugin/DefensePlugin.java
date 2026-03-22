@@ -12,13 +12,13 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.arkatale.defenseplugin.logic.WaveManager;
+import com.hypixel.hytale.server.core.universe.world.World;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DefensePlugin extends JavaPlugin {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    private WaveManager waveManager;
     private final Map<Vector3i, DefendSession> activeSessions = new ConcurrentHashMap<>();
 
     public DefensePlugin(JavaPluginInit init) {
@@ -40,9 +40,11 @@ public class DefensePlugin extends JavaPlugin {
 
 
         DefendSession defendSession = null;
-        this.getCommandRegistry().registerCommand(new StartWaves(defendSession));
+//        this.getCommandRegistry().registerCommand(new StartWaves(DefendSession.checkAndStartDefendSession()));
+//        this.getCommandRegistry().registerCommand(new StartWaves(DefendSession::checkAndStartDefendSession));
 //        this.getEventRegistry().register(new WaveStartListener(waveManager));
-
+        var cmdRegistry = this.getCommandRegistry();
+        cmdRegistry.registerCommand(new StartWaves(this));
     }
 
     @Override
@@ -50,5 +52,15 @@ public class DefensePlugin extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem(5));
     }
 
+    public DefendSession startDefenseAt(Vector3i defendPos, World world){
+        if(activeSessions.containsKey(defendPos)){
+            return null;
+        }
 
+        DefendSession defendSession = new DefendSession(defendPos, new WaveManager(defendPos, world));
+        activeSessions.put(defendPos, defendSession);
+
+        defendSession.getWaveManager().startWaves();
+        return defendSession;
+    }
 }
