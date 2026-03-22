@@ -6,6 +6,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -32,6 +33,8 @@ public class StartWaves extends AbstractPlayerCommand {
 //        waveSessions.add(new WaveManager(placeholderPositionToDefend));
 //         = new DefendSession(placeholderPositionToDefend, new WaveManager(placeholderPositionToDefend));
 
-        defensePlugin.startDefenseAt(placeholderPositionToDefend, world);
+        var player = store.getComponent(ref, Player.getComponentType());
+        EntityStore entityStore = player.getWorld().getEntityStore();
+        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
     }
 }

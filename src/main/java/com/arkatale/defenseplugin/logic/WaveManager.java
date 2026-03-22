@@ -1,6 +1,7 @@
 package com.arkatale.defenseplugin.logic;
 
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -19,9 +20,10 @@ public class WaveManager {
     private EntityStore store;
     private final Vector3i toDefendPosition;
 
-    public WaveManager(Vector3i toDefendPosition, World world) {
+    public WaveManager(Vector3i toDefendPosition, World world, EntityStore store) {
         this.toDefendPosition = toDefendPosition;
         this.world = world;
+        this.store = store;
     }
 
     public int getCurrentWave() {
@@ -34,7 +36,7 @@ public class WaveManager {
 
     public boolean startWaves() {
         if (gameState != null) {
-            this.store = world.getEntityStore();
+//            this.store = world.getEntityStore();
             gameState = GameState.COUNTDOWN;
             return true;
         }

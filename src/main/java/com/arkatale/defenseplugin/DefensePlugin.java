@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.arkatale.defenseplugin.logic.WaveManager;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,12 +53,12 @@ public class DefensePlugin extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem(5));
     }
 
-    public DefendSession startDefenseAt(Vector3i defendPos, World world){
+    public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store){
 //        if(activeSessions.containsKey(defendPos)){
 //            return null;
 //        }
 
-        DefendSession defendSession = new DefendSession(defendPos, new WaveManager(defendPos, world));
+        DefendSession defendSession = new DefendSession(defendPos, new WaveManager(defendPos, world, store));
         activeSessions.put(defendPos, defendSession);
 
         defendSession.getWaveManager().startWaves();
