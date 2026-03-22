@@ -1,6 +1,7 @@
 package com.arkatale.defenseplugin.logic;
 
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
@@ -32,7 +33,7 @@ public class WaveManager {
     }
 
     public boolean startWaves() {
-        if (gameState == null) {
+        if (gameState != null) {
             this.store = world.getEntityStore();
             gameState = GameState.COUNTDOWN;
             return true;
@@ -59,11 +60,29 @@ public class WaveManager {
     }
 
     public void spawnWave(){
-        for (int i = 0; i < 10; i++){
+        var basePos = toDefendPosition.clone().add(15, 0,0);
+        for (int i = -10; i < 10; i++){
 //            world.spawnEntity()
             //TODO
             //position and rotation
-//            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Kweebec_Sapling", null, position, rotation);
+            var pos = basePos.clone().add(0,0,i).toVector3d();
+            var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
+            //todo find ground position and avoid spawning in ground
+            world.execute(
+                    () -> {
+            Pair<Ref<EntityStore>, INonPlayerCharacter> result =
+                NPCPlugin.get().spawnNPC(store.getStore(), "Kweebec_Sapling", null, pos, rotation);
+            if (result != null) {
+                Ref<EntityStore> npcRef = result.first();
+                INonPlayerCharacter npc = result.second();
+
+                // Proceed with customization...
+//                setupNPCInventory(npcRef, store);
+            }
+
+                    }
+            );
+
         }
     }
 }

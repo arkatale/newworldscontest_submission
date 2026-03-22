@@ -53,9 +53,9 @@ public class DefensePlugin extends JavaPlugin {
     }
 
     public DefendSession startDefenseAt(Vector3i defendPos, World world){
-        if(activeSessions.containsKey(defendPos)){
-            return null;
-        }
+//        if(activeSessions.containsKey(defendPos)){
+//            return null;
+//        }
 
         DefendSession defendSession = new DefendSession(defendPos, new WaveManager(defendPos, world));
         activeSessions.put(defendPos, defendSession);
