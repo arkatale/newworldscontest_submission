@@ -22,6 +22,6 @@ public class StartWaves extends AbstractPlayerCommand {
     @Override
     protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
         var playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
-        waveManager.startWaves(playerTransform.getPosition().toVector3i());
+        waveManager.startWaves(playerTransform.getPosition().toVector3i(), world);
     }
 }
