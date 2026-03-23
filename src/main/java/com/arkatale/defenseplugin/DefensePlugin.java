@@ -5,6 +5,7 @@ import com.arkatale.defenseplugin.commands.StartWaves;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.arkatale.defenseplugin.components.TowerComponent;
 import com.arkatale.defenseplugin.events.ExampleEvent;
+import com.arkatale.defenseplugin.events.WaveStartListener;
 import com.arkatale.defenseplugin.logic.DefendSession;
 import com.arkatale.defenseplugin.systems.TowerTickingSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -51,6 +52,10 @@ public class DefensePlugin extends JavaPlugin {
         var at_DefendBlockComponent = this.getChunkStoreRegistry().registerComponent(DefendBlockComponent.class, "AT_DefendBlockComponent", DefendBlockComponent.CODEC);
 
         DefendBlockComponent.setComponentType(at_DefendBlockComponent);
+
+//        this.getEventRegistry().register(new WaveStartListener(this));
+        this.getEntityStoreRegistry().registerSystem(new WaveStartListener(this));
+
     }
 
     @Override
