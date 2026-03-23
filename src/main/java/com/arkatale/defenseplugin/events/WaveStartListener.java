@@ -53,7 +53,7 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         world.execute(() -> {
             Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
         });
-
+//how to get the Crocodile for the flockTarget into waveManager other than just parameter passing?
         defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
         ;
         Universe.get().sendMessage(Message.raw("test"));
