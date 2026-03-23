@@ -83,7 +83,7 @@ public class WaveManager {
 //            world.spawnEntity()
             //TODO
             //position and rotation
-            var position = basePos.clone().add(0, 0, i).toVector3d();
+            var position = basePos.clone().add(0, 0, 0).toVector3d();
             var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
             //todo find ground position and avoid spawning in ground
             world.execute(
@@ -105,27 +105,26 @@ public class WaveManager {
 
 //how to make this good?
 //        world.execute(() -> {
-            CompletableFuture.runAsync(() ->
-                    {
-                        for (Pair<Ref<EntityStore>, INonPlayerCharacter> pair : spawnedNPCsThisWave) {
+        CompletableFuture.runAsync(() -> {
+            world.execute(() -> {
+                var store1 = store.getStore();
 
-                            var store1 = store.getStore();
-
-                            var entityRef = pair.key();
-
-                            HytaleLogger.getLogger().atWarning().log("vor remove entity.. isValid?" + entityRef.isValid());
-
-                            var test = store1.removeEntity(entityRef, RemoveReason.REMOVE);
-                            HytaleLogger.getLogger().atWarning().log("nach remove entity");
-
-
-                            HytaleLogger.getLogger().atWarning().log(test.toString());
-//                            spawnedNPCsThisWave.remove(pair);
-
+                for (var pair : spawnedNPCsThisWave) {
+                    var entityRef = pair.key();
+                    try {
+                        if (entityRef.isValid()) {
+                            var result = store1.removeEntity(entityRef, RemoveReason.REMOVE);
+                            HytaleLogger.getLogger().atInfo().log("Entity removed: " + result);
+                        } else {
+                            HytaleLogger.getLogger().atWarning().log("Entity was not valid, skipping remove");
                         }
-                        spawnedNPCsThisWave.clear();
+                    } catch (Exception e) {
+                        HytaleLogger.getLogger().atSevere().log("Exception during removeEntity", e);
                     }
-                    , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
+                }
+                spawnedNPCsThisWave.clear(); // Liste nach Abarbeitung leeren
+            });
+        }, CompletableFuture.delayedExecutor(8, TimeUnit.SECONDS));
 
 //        });
 
