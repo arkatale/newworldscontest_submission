@@ -7,16 +7,21 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
+import com.hypixel.hytale.server.core.inventory.Inventory;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
+import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.hypixel.hytale.server.npc.util.InventoryHelper;
 import com.sun.tools.jconsole.JConsoleContext;
 import it.unimi.dsi.fastutil.Pair;
 //import sun.awt.windows.WChoicePeer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -88,14 +93,14 @@ public class WaveManager {
             //todo find ground position and avoid spawning in ground
             world.execute(
                     () -> {
-                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Zombie_Aberrant", null, position, rotation);
+                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Skeleton", null, position, rotation);
                         if (result != null) {
                             spawnedNPCsThisWave.add(result);
                             Ref<EntityStore> npcRef = result.first();
                             INonPlayerCharacter npc = result.second();
 
                             // Proceed with customization...
-//                setupNPCInventory(npcRef, store);
+                setupNPCInventory(npcRef, store);
                         }
 
                     }
@@ -105,6 +110,21 @@ public class WaveManager {
         var removeAfterSeconds = 8;
         removeNPCs(removeAfterSeconds);
 
+    }
+
+    private void setupNPCInventory(Ref<EntityStore> npcRef, Store<EntityStore> store) {
+        NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
+
+// Initialize inventory size (e.g., 3 rows, 9 columns, 0 offset)
+        npcComponent.setInventorySize(3, 9, 0);
+
+        Inventory inventory = npcComponent.getInventory();
+
+// Add a Thorium Mace to the first slot of the hotbar
+        inventory.getHotbar().addItemStackToSlot((short) 0, new ItemStack("Weapon_Mace_Thorium", 1));
+
+// Equip a Thorium Helmet using the InventoryHelper
+        InventoryHelper.useArmor(inventory.getArmor(), "Armor_Thorium_Head");
     }
 
     private void removeNPCs(int removeAfterSeconds) {
