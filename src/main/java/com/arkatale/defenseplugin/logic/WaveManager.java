@@ -6,7 +6,6 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
-import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
 import com.hypixel.hytale.server.core.inventory.Inventory;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -15,17 +14,16 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.util.InventoryHelper;
-import com.sun.tools.jconsole.JConsoleContext;
 import it.unimi.dsi.fastutil.Pair;
 //import sun.awt.windows.WChoicePeer;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class WaveManager {
+    private final Pair<Ref<EntityStore>, INonPlayerCharacter> target;
     private int currentWave = 0;
     private GameState gameState;
     private World world;
@@ -35,10 +33,11 @@ public class WaveManager {
     private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
 
 
-    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore) {
+    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target) {
         this.toDefendPosition = toDefendPosition;
         this.world = world;
         this.store = entityStore.getStore();
+        this.target = target;
     }
 
     public int getCurrentWave() {
@@ -129,7 +128,7 @@ public class WaveManager {
 // Equip a Thorium Helmet using the InventoryHelper
         InventoryHelper.useArmor(inventory.getArmor(), "Armor_Thorium_Head");
 
-//        npcComponent.onFlockSetTarget();
+        npcComponent.onFlockSetTarget("target", target.key());
     }
 
     private void removeNPCs(int removeAfterSeconds) {

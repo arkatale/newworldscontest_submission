@@ -51,10 +51,14 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         var rotation = Vector3f.lookAt(position);
 
         world.execute(() -> {
-            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
+            Pair<Ref<EntityStore>, INonPlayerCharacter> result;
+            result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
+
+            if(result != null){
+            defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, result);
+            }
+
         });
-//how to get the Crocodile for the flockTarget into waveManager other than just parameter passing?
-        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
         ;
         Universe.get().sendMessage(Message.raw("test"));
 

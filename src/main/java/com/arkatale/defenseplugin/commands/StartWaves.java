@@ -1,7 +1,6 @@
 package com.arkatale.defenseplugin.commands;
 
 import com.arkatale.defenseplugin.DefensePlugin;
-import com.arkatale.defenseplugin.logic.DefendSession;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
@@ -11,7 +10,6 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.arkatale.defenseplugin.logic.WaveManager;
 import org.jspecify.annotations.NonNull;
 
 public class StartWaves extends AbstractPlayerCommand {
@@ -35,6 +33,6 @@ public class StartWaves extends AbstractPlayerCommand {
 
         var player = store.getComponent(ref, Player.getComponentType());
         EntityStore entityStore = player.getWorld().getEntityStore();
-        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
+        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, null);
     }
 }
