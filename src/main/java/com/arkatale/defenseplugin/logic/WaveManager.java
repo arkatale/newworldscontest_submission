@@ -128,7 +128,9 @@ public class WaveManager {
 // Equip a Thorium Helmet using the InventoryHelper
         InventoryHelper.useArmor(inventory.getArmor(), "Armor_Thorium_Head");
 
-        npcComponent.onFlockSetTarget("target", target.key());
+        Ref<EntityStore> target1 = target.key();
+        npcComponent.onFlockSetTarget("LockedTarget", target1);
+//        npcComponent.
     }
 
     private void removeNPCs(int removeAfterSeconds) {
