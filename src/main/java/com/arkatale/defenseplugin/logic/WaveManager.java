@@ -19,6 +19,8 @@ public class WaveManager {
     private World world;
     private EntityStore store;
     private final Vector3i toDefendPosition;
+    private int countdownSeconds;
+
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore store) {
         this.toDefendPosition = toDefendPosition;
@@ -45,7 +47,9 @@ public class WaveManager {
                 () -> {
                     CompletableFuture.runAsync(() ->
                             {
-                spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
+//                                countdownSeconds = 1;
+                                startCountdown(1);
+                                spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
                             }
                             , CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
                 }
@@ -61,30 +65,37 @@ public class WaveManager {
         this.gameState = gameState;
     }
 
-    public void spawnWave(){
-        var basePos = toDefendPosition.clone().add(15, 0,0);
-        for (int i = -10; i < 10; i++){
+    public void spawnWave() {
+        var basePos = toDefendPosition.clone().add(15, 0, 0);
+        for (int i = -10; i < 10; i++) {
 //            world.spawnEntity()
             //TODO
             //position and rotation
-            var pos = basePos.clone().add(0,0,i).toVector3d();
+            var position = basePos.clone().add(0, 0, i).toVector3d();
             var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
             //todo find ground position and avoid spawning in ground
             world.execute(
                     () -> {
-            Pair<Ref<EntityStore>, INonPlayerCharacter> result =
-                NPCPlugin.get().spawnNPC(store.getStore(), "Kweebec_Sapling", null, pos, rotation);
-            if (result != null) {
-                Ref<EntityStore> npcRef = result.first();
-                INonPlayerCharacter npc = result.second();
+                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store.getStore(), "Kweebec_Sapling", null, position, rotation);
+                        if (result != null) {
+                            Ref<EntityStore> npcRef = result.first();
+                            INonPlayerCharacter npc = result.second();
 
-                // Proceed with customization...
+                            // Proceed with customization...
 //                setupNPCInventory(npcRef, store);
-            }
+                        }
 
                     }
             );
 
         }
+    }
+
+    public int getCountdownSeconds() {
+        return countdownSeconds;
+    }
+
+    public void startCountdown(int countdownSeconds) {
+        this.countdownSeconds = countdownSeconds;
     }
 }
