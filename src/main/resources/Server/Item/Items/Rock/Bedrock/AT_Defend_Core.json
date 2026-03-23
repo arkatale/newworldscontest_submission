@@ -9,7 +9,7 @@
   "PlayerAnimationsId": "Block",
   "BlockType": {
     "Material": "Solid",
-    "DrawType": "Cube",
+    "DrawType": "Model",
     "Group": "Stone",
     "Flags": {},
     "BlockParticleSetId": "Stone",
@@ -20,7 +20,13 @@
       }
     ],
     "ParticleColor": "#1a1026",
-    "BlockSoundSetId": "Stone"
+    "BlockSoundSetId": "Stone",
+    "CustomModel": "Blocks/defend_core.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "BlockTextures/defend_core.png"
+      }
+    ]
   },
   "Tags": {
     "Type": [
