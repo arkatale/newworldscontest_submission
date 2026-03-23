@@ -102,8 +102,13 @@ public class WaveManager {
             );
 
         }
+        var removeAfterSeconds = 8;
+        removeNPCs(removeAfterSeconds);
 
-//how to make this good?
+    }
+
+    private void removeNPCs(int removeAfterSeconds) {
+        //how to make this good?
 //        world.execute(() -> {
         CompletableFuture.runAsync(() -> {
             world.execute(() -> {
@@ -124,10 +129,9 @@ public class WaveManager {
                 }
                 spawnedNPCsThisWave.clear(); // Liste nach Abarbeitung leeren
             });
-        }, CompletableFuture.delayedExecutor(8, TimeUnit.SECONDS));
+        }, CompletableFuture.delayedExecutor(removeAfterSeconds, TimeUnit.SECONDS));
 
 //        });
-
     }
 
     public int getCountdownSeconds() {
