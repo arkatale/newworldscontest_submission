@@ -12,12 +12,12 @@ import org.jspecify.annotations.Nullable;
 public class DefendBlockComponent implements Component<ChunkStore> {
     public static final BuilderCodec<DefendBlockComponent> CODEC = BuilderCodec.builder(DefendBlockComponent.class, DefendBlockComponent::new)
             .append(new KeyedCodec<Integer>("Corruption", Codec.INTEGER),
-                    (config, value) -> config.corruption = value, // Setter //why Cannot resolve symbol 'corruption'
+                    (config, value) -> config.corruption = value, // Setter
                     (config) -> config.corruption).add() // Getter
             .build();
 
     private int corruption = 0;
-
+    public DefendBlockComponent(){} //needed for CODEC
     public DefendBlockComponent(DefendBlockComponent defendBlockComponent) {
         this.corruption = defendBlockComponent.getCorruption();
     }
