@@ -101,6 +101,9 @@ public class WaveManager {
 
                             // Proceed with customization...
                 setupNPCInventory(npcRef, store);
+
+//                store.getComponent(npcRef, Targetcompo)
+//                            npc.
                         }
 
                     }
@@ -125,6 +128,8 @@ public class WaveManager {
 
 // Equip a Thorium Helmet using the InventoryHelper
         InventoryHelper.useArmor(inventory.getArmor(), "Armor_Thorium_Head");
+
+//        npcComponent.onFlockSetTarget();
     }
 
     private void removeNPCs(int removeAfterSeconds) {

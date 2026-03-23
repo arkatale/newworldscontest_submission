@@ -1,19 +1,20 @@
 package com.arkatale.defenseplugin.events;
 
 import com.arkatale.defenseplugin.DefensePlugin;
-import com.hypixel.hytale.component.Archetype;
-import com.hypixel.hytale.component.ArchetypeChunk;
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
+import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.arkatale.defenseplugin.logic.WaveManager;
+import com.hypixel.hytale.server.npc.NPCPlugin;
+import it.unimi.dsi.fastutil.Pair;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -45,12 +46,17 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         var player = archetypeChunk.getComponent(index, Player.getComponentType());
         World world = player.getWorld();
         EntityStore entityStore = player.getWorld().getEntityStore();
-
+        var playerTransform = player.getTransformComponent();
+        var position = playerTransform.getPosition();
+        var rotation = Vector3f.lookAt(position);
+        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
 
         //world and entityStore missing/needed
         defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
         ;
         Universe.get().sendMessage(Message.raw("test"));
+
+
     }
 
     @Override
