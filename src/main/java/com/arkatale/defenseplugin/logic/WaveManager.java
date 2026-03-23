@@ -24,16 +24,16 @@ public class WaveManager {
     private int currentWave = 0;
     private GameState gameState;
     private World world;
-    private EntityStore store;
+    private final Store<EntityStore> store;
     private final Vector3i toDefendPosition;
     private int countdownSeconds;
     private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
 
 
-    public WaveManager(Vector3i toDefendPosition, World world, EntityStore store) {
+    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore) {
         this.toDefendPosition = toDefendPosition;
         this.world = world;
-        this.store = store;
+        this.store = entityStore.getStore();
     }
 
     public int getCurrentWave() {
@@ -88,7 +88,7 @@ public class WaveManager {
             //todo find ground position and avoid spawning in ground
             world.execute(
                     () -> {
-                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store.getStore(), "Zombie_Aberrant", null, position, rotation);
+                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Zombie_Aberrant", null, position, rotation);
                         if (result != null) {
                             spawnedNPCsThisWave.add(result);
                             Ref<EntityStore> npcRef = result.first();
@@ -112,13 +112,11 @@ public class WaveManager {
 //        world.execute(() -> {
         CompletableFuture.runAsync(() -> {
             world.execute(() -> {
-                var store1 = store.getStore();
-
                 for (var pair : spawnedNPCsThisWave) {
                     var entityRef = pair.key();
                     try {
                         if (entityRef.isValid()) {
-                            var result = store1.removeEntity(entityRef, RemoveReason.REMOVE);
+                            var result = store.removeEntity(entityRef, RemoveReason.REMOVE);
                             HytaleLogger.getLogger().atInfo().log("Entity removed: " + result);
                         } else {
                             HytaleLogger.getLogger().atWarning().log("Entity was not valid, skipping remove");
