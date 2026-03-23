@@ -104,20 +104,30 @@ public class WaveManager {
         }
 
 //how to make this good?
-        world.execute(() -> {
+//        world.execute(() -> {
             CompletableFuture.runAsync(() ->
                     {
                         for (Pair<Ref<EntityStore>, INonPlayerCharacter> pair : spawnedNPCsThisWave) {
 
-                            var test = store.getStore().removeEntity(pair.key(), RemoveReason.UNLOAD);
+                            var store1 = store.getStore();
+
+                            var entityRef = pair.key();
+
+                            HytaleLogger.getLogger().atWarning().log("vor remove entity.. isValid?" + entityRef.isValid());
+
+                            var test = store1.removeEntity(entityRef, RemoveReason.REMOVE);
+                            HytaleLogger.getLogger().atWarning().log("nach remove entity");
+
+
                             HytaleLogger.getLogger().atWarning().log(test.toString());
-                            spawnedNPCsThisWave.remove(pair);
+//                            spawnedNPCsThisWave.remove(pair);
 
                         }
+                        spawnedNPCsThisWave.clear();
                     }
                     , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
 
-        });
+//        });
 
     }
 
