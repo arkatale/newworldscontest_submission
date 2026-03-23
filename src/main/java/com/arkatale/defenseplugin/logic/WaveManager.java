@@ -1,15 +1,22 @@
 package com.arkatale.defenseplugin.logic;
 
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
+import com.sun.tools.jconsole.JConsoleContext;
 import it.unimi.dsi.fastutil.Pair;
+//import sun.awt.windows.WChoicePeer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +27,7 @@ public class WaveManager {
     private EntityStore store;
     private final Vector3i toDefendPosition;
     private int countdownSeconds;
+    private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
 
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore store) {
@@ -37,6 +45,10 @@ public class WaveManager {
     }
 
     public boolean startWaves() {
+//        if(spawnedNPCsThisWave ==  null){
+            spawnedNPCsThisWave = new ArrayList<>();
+//        }
+
         if (gameState != null) {
 //            this.store = world.getEntityStore();
             gameState = GameState.COUNTDOWN;
@@ -67,7 +79,7 @@ public class WaveManager {
 
     public void spawnWave() {
         var basePos = toDefendPosition.clone().add(15, 0, 0);
-        for (int i = -10; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
 //            world.spawnEntity()
             //TODO
             //position and rotation
@@ -76,8 +88,9 @@ public class WaveManager {
             //todo find ground position and avoid spawning in ground
             world.execute(
                     () -> {
-                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store.getStore(), "Kweebec_Sapling", null, position, rotation);
+                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store.getStore(), "Zombie_Aberrant", null, position, rotation);
                         if (result != null) {
+                            spawnedNPCsThisWave.add(result);
                             Ref<EntityStore> npcRef = result.first();
                             INonPlayerCharacter npc = result.second();
 
@@ -89,6 +102,23 @@ public class WaveManager {
             );
 
         }
+
+//how to make this good?
+        world.execute(() -> {
+            CompletableFuture.runAsync(() ->
+                    {
+                        for (Pair<Ref<EntityStore>, INonPlayerCharacter> pair : spawnedNPCsThisWave) {
+
+                            var test = store.getStore().removeEntity(pair.key(), RemoveReason.UNLOAD);
+                            HytaleLogger.getLogger().atWarning().log(test.toString());
+                            spawnedNPCsThisWave.remove(pair);
+
+                        }
+                    }
+                    , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
+
+        });
+
     }
 
     public int getCountdownSeconds() {
