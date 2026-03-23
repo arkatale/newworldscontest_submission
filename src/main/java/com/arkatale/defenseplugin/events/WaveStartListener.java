@@ -49,9 +49,11 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         var playerTransform = player.getTransformComponent();
         var position = playerTransform.getPosition();
         var rotation = Vector3f.lookAt(position);
-        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
 
-        //world and entityStore missing/needed
+        world.execute(() -> {
+            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
+        });
+
         defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
         ;
         Universe.get().sendMessage(Message.raw("test"));
