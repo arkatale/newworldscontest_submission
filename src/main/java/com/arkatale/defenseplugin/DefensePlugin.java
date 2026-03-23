@@ -2,6 +2,7 @@ package com.arkatale.defenseplugin;
 
 import com.arkatale.defenseplugin.commands.AddRemoveTowerComponentCommand;
 import com.arkatale.defenseplugin.commands.StartWaves;
+import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.arkatale.defenseplugin.components.TowerComponent;
 import com.arkatale.defenseplugin.events.ExampleEvent;
 import com.arkatale.defenseplugin.logic.DefendSession;
@@ -46,6 +47,10 @@ public class DefensePlugin extends JavaPlugin {
 //        this.getEventRegistry().register(new WaveStartListener(waveManager));
         var cmdRegistry = this.getCommandRegistry();
         cmdRegistry.registerCommand(new StartWaves(this));
+
+        var at_DefendBlockComponent = this.getChunkStoreRegistry().registerComponent(DefendBlockComponent.class, "AT_DefendBlockComponent", DefendBlockComponent.CODEC);
+
+        DefendBlockComponent.setComponentType(at_DefendBlockComponent);
     }
 
     @Override
