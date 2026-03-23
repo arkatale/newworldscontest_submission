@@ -8,8 +8,10 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent;
 import com.hypixel.hytale.server.core.universe.Universe;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.arkatale.defenseplugin.logic.WaveManager;
 import org.jspecify.annotations.NonNull;
@@ -26,8 +28,7 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
     }
 
     @Override
-    public void handle(int i, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer, UseBlockEvent.Pre pre) {
-        Universe.get().sendMessage(Message.raw("test"));
+    public void handle(int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer, UseBlockEvent.Pre pre) {
 
         //Message.parse("test") Fehler, weil text und kein JSON ist
         //why hast du wrap in PARSE vorgeschlagen IntelliJ Idea?
@@ -41,8 +42,15 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         //	at com.hypixel.hytale.server.core.Message.parse(Message.java:524)
         //	at com.arkatale.defenseplugin.events.WaveStartListener.handle(WaveStartListener.java:30)
         var placeholderPositionToDefend = pre.getTargetBlock();
+        var player = archetypeChunk.getComponent(index, Player.getComponentType());
+        World world = player.getWorld();
+        EntityStore entityStore = player.getWorld().getEntityStore();
+
+
         //world and entityStore missing/needed
-//        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
+        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore);
+        ;
+        Universe.get().sendMessage(Message.raw("test"));
     }
 
     @Override
