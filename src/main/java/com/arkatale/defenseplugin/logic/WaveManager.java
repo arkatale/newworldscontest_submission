@@ -64,7 +64,7 @@ public class WaveManager {
                     CompletableFuture.runAsync(() ->
                             {
 //                                countdownSeconds = 1;
-                                startCountdown(1);
+                                 startCountdown(1);
                                 spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
                             }
                             , CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
