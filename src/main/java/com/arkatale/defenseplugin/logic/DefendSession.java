@@ -5,10 +5,12 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 
 public class DefendSession {
     private final Vector3i defendPosition;
+    public final Player startingPlayer;
     private final WaveManager waveManager;
 
     public DefendSession(Vector3i defendPosition, Player startingPlayer, WaveManager waveManager){
         this.defendPosition = defendPosition;
+        this.startingPlayer = startingPlayer;
         this.waveManager = waveManager;
     }
 
