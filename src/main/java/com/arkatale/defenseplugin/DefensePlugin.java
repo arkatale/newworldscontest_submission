@@ -11,6 +11,7 @@ import com.arkatale.defenseplugin.systems.TowerTickingSystem;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
@@ -66,12 +67,12 @@ public class DefensePlugin extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem(5));
     }
 
-    public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store, Pair<Ref<EntityStore>, INonPlayerCharacter> target){
+    public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store, Pair<Ref<EntityStore>, INonPlayerCharacter> target, Player startingPlayer){
 //        if(activeSessions.containsKey(defendPos)){
 //            return null;
 //        }
 
-        DefendSession defendSession = new DefendSession(defendPos, new WaveManager(defendPos, world, store, target));
+        DefendSession defendSession = new DefendSession(defendPos, startingPlayer, new WaveManager(defendPos, world, store, target));
         activeSessions.put(defendPos, defendSession);
 
         defendSession.getWaveManager().startWaves();

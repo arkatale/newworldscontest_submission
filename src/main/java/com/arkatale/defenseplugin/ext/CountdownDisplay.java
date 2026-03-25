@@ -1,11 +1,11 @@
 package com.arkatale.defenseplugin.ext;
 
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.universe.Universe;
+
 public class CountdownDisplay {
     public void updateCountdown(int seconds) {
         // Update the countdown display with the remaining seconds
-        System.out.println("Countdown: " + seconds + " seconds remaining");
-        //HytaleLogger    .log("Countdown updated: " + seconds + " seconds remaining");
-        //Universe.get().sendMessage(Message.raw()                .withText("Countdown: " + seconds + " seconds remaining")
-                .withColor(ChatColor.GREEN));
+        Universe.get().sendMessage(Message.raw(String.valueOf(seconds)));
     }
 }

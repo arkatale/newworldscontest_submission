@@ -33,6 +33,6 @@ public class StartWaves extends AbstractPlayerCommand {
 
         var player = store.getComponent(ref, Player.getComponentType());
         EntityStore entityStore = player.getWorld().getEntityStore();
-        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, null);
+        defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, null, player);
     }
 }

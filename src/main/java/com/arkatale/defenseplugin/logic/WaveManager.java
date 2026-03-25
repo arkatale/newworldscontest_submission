@@ -1,5 +1,6 @@
 package com.arkatale.defenseplugin.logic;
 
+import com.arkatale.defenseplugin.ext.CountdownDisplay;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
@@ -31,7 +32,7 @@ public class WaveManager {
     private final Vector3i toDefendPosition;
     private int countdownSeconds;
     private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
-
+    CountdownDisplay countdownDisplay = new CountdownDisplay();
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target) {
         this.toDefendPosition = toDefendPosition;
@@ -172,19 +173,12 @@ public class WaveManager {
         for(int i = countdownSeconds; i >= 0; i--) {
             final int secondsLeft = i;
             world.execute(() -> {
-                // Update the countdown display with the remaining seconds
-                System.out.println("Countdown: " + secondsLeft + " seconds remaining");
-                //HytaleLogger    .log("Countdown updated: " + secondsLeft + " seconds remaining");
-                //Universe.get().sendMessage(Message.raw()                .withText("Countdown: " + secondsLeft + " seconds remaining")
-                //        .withColor(ChatColor.GREEN));
+                CompletableFuture.runAsync(() -> {
+
+                }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
             });
 
-            try {
-                Thread.sleep(1000); // Wait for 1 second
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break; // Exit the loop if interrupted
-            }
+
         }
     }
 }

@@ -1,12 +1,13 @@
 package com.arkatale.defenseplugin.logic;
 
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 
 public class DefendSession {
     private final Vector3i defendPosition;
     private final WaveManager waveManager;
 
-    public DefendSession(Vector3i defendPosition, WaveManager waveManager){
+    public DefendSession(Vector3i defendPosition, Player startingPlayer, WaveManager waveManager){
         this.defendPosition = defendPosition;
         this.waveManager = waveManager;
     }
