@@ -168,5 +168,23 @@ public class WaveManager {
 
     public void startCountdown(int countdownSeconds) {
         this.countdownSeconds = countdownSeconds;
+
+        for(int i = countdownSeconds; i >= 0; i--) {
+            final int secondsLeft = i;
+            world.execute(() -> {
+                // Update the countdown display with the remaining seconds
+                System.out.println("Countdown: " + secondsLeft + " seconds remaining");
+                //HytaleLogger    .log("Countdown updated: " + secondsLeft + " seconds remaining");
+                //Universe.get().sendMessage(Message.raw()                .withText("Countdown: " + secondsLeft + " seconds remaining")
+                //        .withColor(ChatColor.GREEN));
+            });
+
+            try {
+                Thread.sleep(1000); // Wait for 1 second
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break; // Exit the loop if interrupted
+            }
+        }
     }
 }
