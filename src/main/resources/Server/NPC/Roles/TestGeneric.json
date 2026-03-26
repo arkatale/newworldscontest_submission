@@ -33,10 +33,43 @@
       },
       "Actions": [
         {
-          "Type": "PlaceBlock",
-          "AllowEmptyMaterials": true,
-          "Once": false,
-          "Range": 3
+          "Type": "Sequence",
+          "Actions": [
+            {
+              "Type": "SetMarkedTarget",
+              "Slot": 0,
+              "Target": "BlockPosition"
+            },
+            {
+              "Type": "RecomputePath"
+            },
+            {
+              "Type": "PlaceBlock",
+              "AllowEmptyMaterials": true,
+              "Once": false,
+              "Range": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "Player",
+        "Range": 20
+      },
+      "Actions": [
+        {
+          "Type": "Sequence",
+          "Actions": [
+            {
+              "Type": "AddToHostileTargetMemory",
+              "Target": "Player"
+            },
+            {
+              "Type": "CombatAbility"
+            }
+          ]
         }
       ]
     }
