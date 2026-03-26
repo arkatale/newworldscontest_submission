@@ -24,6 +24,21 @@
           }
         }
       ]
+    },
+    {
+      "Sensor": {
+        "Type": "Block",
+        "Blocks": "AT_Defend_Core",
+        "Range": 36
+      },
+      "Actions": [
+        {
+          "Type": "PlaceBlock",
+          "AllowEmptyMaterials": true,
+          "Once": false,
+          "Range": 3
+        }
+      ]
     }
   ],
   "NameTranslationKey": "server.npcRoles.TestGeneric.name"
