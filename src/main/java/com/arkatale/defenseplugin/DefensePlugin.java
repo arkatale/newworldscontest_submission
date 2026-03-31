@@ -77,7 +77,7 @@ public class DefensePlugin extends JavaPlugin {
 //            return null;
 //        }
 
-        DefendSession defendSession = new DefendSession(defendPos, startingPlayer, new WaveManager(defendPos, world, store, target));
+        DefendSession defendSession = new DefendSession(defendPos, startingPlayer, defendPos, world, store, target);
         activeSessions.put(defendPos, defendSession);
 
         defendSession.getWaveManager().startWaves();

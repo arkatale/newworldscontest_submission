@@ -55,6 +55,10 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
             result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
 
             if(result != null){
+
+                var npcRef = result.first();
+                var attackerComponent =
+
             defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, result, player);
             }
 

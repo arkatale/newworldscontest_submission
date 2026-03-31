@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 public class WaveManager {
     private final Pair<Ref<EntityStore>, INonPlayerCharacter> target;
+    private final DefendSession defendSession;
     private int currentWave = 0;
     private GameState gameState;
     private World world;
@@ -32,13 +33,15 @@ public class WaveManager {
     private final Vector3i toDefendPosition;
     private int countdownSeconds;
     private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
-    CountdownDisplay countdownDisplay = new CountdownDisplay();
+    CountdownDisplay countdownDisplay;
 
-    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target) {
+    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
         this.world = world;
         this.store = entityStore.getStore();
         this.target = target;
+        this.defendSession = defendSession;
+        countdownDisplay = new CountdownDisplay(defendSession);
     }
 
     public int getCurrentWave() {
