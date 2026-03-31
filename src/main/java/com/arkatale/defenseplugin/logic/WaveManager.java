@@ -126,7 +126,7 @@ public class WaveManager {
         NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
 
 // Initialize inventory size (e.g., 3 rows, 9 columns, 0 offset)
-        npcComponent.setInventorySize(3, 9, 0);
+//        npcComponent.setInventorySize(3, 9, 0);
 
         Inventory inventory = npcComponent.getInventory();
 
