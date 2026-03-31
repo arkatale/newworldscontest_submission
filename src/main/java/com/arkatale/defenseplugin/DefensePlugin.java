@@ -2,11 +2,13 @@ package com.arkatale.defenseplugin;
 
 import com.arkatale.defenseplugin.commands.AddRemoveTowerComponentCommand;
 import com.arkatale.defenseplugin.commands.StartWaves;
+import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.arkatale.defenseplugin.components.TowerComponent;
 import com.arkatale.defenseplugin.events.ExampleEvent;
 import com.arkatale.defenseplugin.events.WaveStartListener;
 import com.arkatale.defenseplugin.logic.DefendSession;
+import com.arkatale.defenseplugin.systems.AttackerSystem;
 import com.arkatale.defenseplugin.systems.TowerTickingSystem;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -45,6 +47,8 @@ public class DefensePlugin extends JavaPlugin {
 
         this.getCommandRegistry().registerCommand(new AddRemoveTowerComponentCommand());
 
+        var at_attackerComponent = this.getEntityStoreRegistry().registerComponent(AttackerComponent.class, "AT_AttackerComponent", AttackerComponent.CODEC);
+
 
         DefendSession defendSession = null;
 //        this.getCommandRegistry().registerCommand(new StartWaves(DefendSession.checkAndStartDefendSession()));
@@ -65,6 +69,7 @@ public class DefensePlugin extends JavaPlugin {
     @Override
     protected void start() {
         this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem(5));
+        this.getEntityStoreRegistry().registerSystem(new AttackerSystem());
     }
 
     public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store, Pair<Ref<EntityStore>, INonPlayerCharacter> target, Player startingPlayer){
