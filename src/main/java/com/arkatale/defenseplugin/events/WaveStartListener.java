@@ -1,6 +1,7 @@
 package com.arkatale.defenseplugin.events;
 
 import com.arkatale.defenseplugin.DefensePlugin;
+import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
@@ -57,7 +58,11 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
             if(result != null){
 
                 var npcRef = result.first();
-                var attackerComponent =
+                var attackerComponent = store.getComponent(npcRef, AttackerComponent.getComponentType());
+
+                if (attackerComponent == null){
+                    store.addComponent(npcRef, AttackerComponent.getComponentType());
+                }
 
             defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, result, player);
             }
