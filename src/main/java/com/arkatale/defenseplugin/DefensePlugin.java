@@ -48,7 +48,7 @@ public class DefensePlugin extends JavaPlugin {
         this.getCommandRegistry().registerCommand(new AddRemoveTowerComponentCommand());
 
         var at_attackerComponent = this.getEntityStoreRegistry().registerComponent(AttackerComponent.class, "AT_AttackerComponent", AttackerComponent.CODEC);
-
+        AttackerComponent.setComponentType(at_attackerComponent);
 
         DefendSession defendSession = null;
 //        this.getCommandRegistry().registerCommand(new StartWaves(DefendSession.checkAndStartDefendSession()));

@@ -13,7 +13,12 @@ public class AttackerComponent implements Component<EntityStore> {
     public static final BuilderCodec<AttackerComponent> CODEC =
             BuilderCodec.builder(AttackerComponent.class, AttackerComponent::new)
                     .build();
-//    daten? braucht der attacker irgendwas? außer core pos
+
+    public static void setComponentType(ComponentType<EntityStore, AttackerComponent> componentType) {
+        AttackerComponent.componentType = componentType;
+    }
+
+    //    daten? braucht der attacker irgendwas? außer core pos
     @Override
     public @Nullable Component<EntityStore> clone() {
         return null;

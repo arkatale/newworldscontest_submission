@@ -19,5 +19,6 @@ public class AttackerSystem extends EntityTickingSystem<EntityStore> {
     @Override
     public @Nullable Query<EntityStore> getQuery() {
         return Query.and(AttackerComponent.getComponentType());
+//        ^^fixed java.lang.IllegalArgumentException: Query in AndQuery cannot be null (Index: 0)
     }
 }
