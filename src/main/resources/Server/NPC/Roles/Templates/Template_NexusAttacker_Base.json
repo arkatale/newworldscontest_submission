@@ -1,0 +1,11 @@
+{
+  "Type": "Variant",
+  "Reference": "BlankTemplate",
+  "Modify": {},
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template_NexusAttacker_Base.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}
