@@ -1,7 +1,26 @@
 {
-  "StartState": "start",
   "Type": "Abstract",
-  "Appearance": "Sheep",
+  "Parameters": {
+    "Appearance": {
+      "Value": "Bear_Grizzly",
+      "Description": "Model to be used"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
+    "MaxHealth": {
+      "Value": 100,
+      "Description": "Max health for the NPC"
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "Appearance": { "Compute": "Appearance" },
+  "DropList": { "Compute": "DropList" },
+  "MaxHealth": { "Compute": "MaxHealth" },
   "MotionControllerList": [
     {
       "Type": "Walk",
@@ -11,34 +30,15 @@
       "Acceleration": 10
     }
   ],
-  "MaxHealth": {
-    "Compute": "MaxHealth"
-  },
-  "Parameters": {
-    "MaxHealth": {
-      "Value": 100,
-      "Description": "Max health for the NPC"
-    },
-    "NameTranslationKey": {
-      "Value": "server.npcRoles.Template_NexusAttacker_Base.name",
-      "Description": "Translation key for NPC name display"
-    }
-  },
   "Instructions": [
     {
-      "Instructions": [
-        {
-          "Sensor": {
-            "Type": "Any"
-          },
-          "BodyMotion": {
-            "Type": "Nothing"
-          }
-        }
-      ]
+      "Sensor": {
+        "Type": "Any"
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      }
     }
   ],
-  "NameTranslationKey": {
-    "Compute": "NameTranslationKey"
-  }
+  "NameTranslationKey": { "Compute": "NameTranslationKey" }
 }
