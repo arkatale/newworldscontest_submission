@@ -46,9 +46,14 @@
         "Type": "State",
         "State": "FollowPath"
       },
-      "Actions": {
-        "Reference": "Component_Instruction_Intelligent_Idle_Motion_Follow_Path"
-      }
+      "Instructions": [
+        {
+          "Reference": "Component_Instruction_Intelligent_Idle_Motion_Follow_Path",
+          "Modify": {
+            "FollowPathRange": 50
+          }
+        }
+      ]
     }
   ],
   "Parameters": {
