@@ -6,11 +6,15 @@ import com.hypixel.hytale.component.Archetype;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.inventory.Inventory;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.modules.entity.EntityModule;
+import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -18,9 +22,11 @@ import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.util.InventoryHelper;
 import it.unimi.dsi.fastutil.Pair;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 //import sun.awt.windows.WChoicePeer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -36,6 +42,7 @@ public class WaveManager {
     private int countdownSeconds;
     private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
     CountdownDisplay countdownDisplay;
+    private int corruption = 0;
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
@@ -141,6 +148,34 @@ if (attackerComponent == null){
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
 
+        while (true){
+            CompletableFuture.runAsync(() -> {
+                world.execute(() -> {
+                   var pos = toDefendPosition.toVector3d();
+                    SpatialResource<Ref<EntityStore>, EntityStore> spatial = store.getResource(EntityModule.get().getEntitySpatialResourceType());
+                        List<Ref<EntityStore>> entities = SpatialResource.getThreadLocalReferenceList();
+//                    spatial.getSpatialStructure().collect(toDefendPosition, 3, players);
+                    spatial.getSpatialStructure().collect(pos, 3d, entities);
+
+                    for(var entity : entities){
+//                        todo check if has AttackerComponent - at later time if that works then
+                        var store = entity.getStore();
+//                        store.getComponent(entity, NPCComp)
+                        NPCEntity npcComponent = store.getComponent(entity, Objects.requireNonNull(NPCEntity.getComponentType()));
+                        if(npcComponent == null) continue;
+                        Universe.get().sendMessage(Message.raw("corruption +1"));
+                        setCorruption(getCorruption()+1);
+
+                    }
+
+                    if(getCorruption() > 10){
+                        Universe.get().sendMessage(Message.raw("You loose"));
+                    }
+
+                });
+            }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
+        }
+
 //        var removeAfterSeconds = 8;
 //        removeNPCs(removeAfterSeconds);
 
@@ -207,5 +242,19 @@ if (attackerComponent == null){
 
 
         }
+    }
+
+    public int getCorruption() {
+        return corruption;
+    }
+
+    public void setCorruption(int setCorruption) {
+        var newCorruption = this.corruption - setCorruption;
+
+        if(newCorruption <= 0){
+            newCorruption = 0;
+        }
+
+        this.corruption = newCorruption;
     }
 }
