@@ -163,7 +163,7 @@ if (attackerComponent == null){
 //                        store.getComponent(entity, NPCComp)
                         NPCEntity npcComponent = store.getComponent(entity, Objects.requireNonNull(NPCEntity.getComponentType()));
                         if(npcComponent == null) continue;
-                        Universe.get().sendMessage(Message.raw("corruption +1"));
+//                        Universe.get().sendMessage(Message.raw("corruption +1"));
                         setCorruption(getCorruption()+1);
 
                     }
@@ -249,7 +249,7 @@ if (attackerComponent == null){
     }
 
     public void setCorruption(int setCorruption) {
-        var newCorruption = this.corruption - setCorruption;
+        var newCorruption = this.corruption + setCorruption;
 
         if(newCorruption <= 0){
             newCorruption = 0;
