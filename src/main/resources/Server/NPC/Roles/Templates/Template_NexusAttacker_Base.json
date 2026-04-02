@@ -5,6 +5,7 @@
   "DropList": { "Compute": "DropList" },
   "MaxHealth": { "Compute": "MaxHealth" },
   "NameTranslationKey": { "Compute": "NameTranslationKey" },
+  "StartState": "Idle",
   "Instructions": [
     {
       "Sensor": {

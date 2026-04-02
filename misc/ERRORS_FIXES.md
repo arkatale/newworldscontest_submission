@@ -2,5 +2,8 @@
 -> Fix: 
     Instruction (with indent) instead of action without indent
 
-Template_NexusAttacker_Base.json (NexusAttacker_Goblin) starts with start.Default
+Fixed Template_NexusAttacker_Base.json (NexusAttacker_Goblin) starts with start.Default
 -> need to set StartState
+
+Doesn't change to FollowPath State
+-> Remove BodyMotion Nothing?
