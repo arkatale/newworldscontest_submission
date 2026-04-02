@@ -14,8 +14,14 @@ public class AttackerComponent implements Component<EntityStore> {
             BuilderCodec.builder(AttackerComponent.class, AttackerComponent::new)
                     .build();
 
-    public static void setComponentType(ComponentType<EntityStore, AttackerComponent> componentType) {
-        AttackerComponent.componentType = componentType;
+    public static void setComponentType(ComponentType<EntityStore, AttackerComponent> componentType1) {
+//        AttackerComponent.componentType = componentType;
+        componentType = componentType1;
+
+//        ^^fix - doch nicht
+//        [2026/04/02 13:29:59 SEVERE]                         [Hytale] Exception in thread Thread[#98,WorldThread - default,5,InnocuousForkJoinWorkerThreadGroup]:
+//java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
+//	at com.hypixel.hytale.component.Archetype.validateComponents(Archetype.java:173)
     }
 
     //    daten? braucht der attacker irgendwas? außer core pos

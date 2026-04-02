@@ -1,6 +1,8 @@
 package com.arkatale.defenseplugin.logic;
 
+import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.ext.CountdownDisplay;
+import com.hypixel.hytale.component.Archetype;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
@@ -105,6 +107,16 @@ public class WaveManager {
                             spawnedNPCsThisWave.add(result);
                             Ref<EntityStore> npcRef = result.first();
                             INonPlayerCharacter npc = result.second();
+
+var attackerComponent = store.getComponent(npcRef, AttackerComponent.getComponentType());
+
+if (attackerComponent == null){
+//    store.addComponent(npcRef, AttackerComponent.getComponentType());
+//    ^^[2026/04/02 13:28:19 SEVERE]                    [Hytale] Exception in thread Thread[#98,WorldThread - default,5,InnocuousForkJoinWorkerThreadGroup]:
+//        java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
+//        at com.hypixel.hytale.component.Archetype.validateComponents(Archetype.java:173)
+//    store.ensureComponent(npcRef, AttackerComponent.getComponentType());
+}
 
                             // Proceed with customization...
                 setupNPCInventory(npcRef, store);

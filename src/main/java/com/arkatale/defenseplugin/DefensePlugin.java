@@ -69,7 +69,7 @@ public class DefensePlugin extends JavaPlugin {
     @Override
     protected void start() {
         this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem(5));
-        this.getEntityStoreRegistry().registerSystem(new AttackerSystem());
+//        this.getEntityStoreRegistry().registerSystem(new AttackerSystem());
     }
 
     public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store, Pair<Ref<EntityStore>, INonPlayerCharacter> target, Player startingPlayer){
