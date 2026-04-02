@@ -93,16 +93,16 @@ public class WaveManager {
 
     public void spawnWave() {
         var basePos = toDefendPosition.clone().add(15, 0, 0);
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 9; i++) {
 //            world.spawnEntity()
             //TODO
             //position and rotation
-            var position = basePos.clone().add(0, 0, 0).toVector3d();
+            var position = basePos.clone().add(i, 0, 0).toVector3d();
             var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
             //todo find ground position and avoid spawning in ground
             world.execute(
                     () -> {
-                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Skeleton", null, position, rotation);
+                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "NexusAttacker_Goblin", null, position, rotation);
                         if (result != null) {
                             spawnedNPCsThisWave.add(result);
                             Ref<EntityStore> npcRef = result.first();
