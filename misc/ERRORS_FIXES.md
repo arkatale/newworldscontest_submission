@@ -6,4 +6,5 @@ Fixed Template_NexusAttacker_Base.json (NexusAttacker_Goblin) starts with start.
 -> need to set StartState
 
 Doesn't change to FollowPath State
--> Remove BodyMotion Nothing?
+-> Remove BodyMotion Nothing & Instruction (with indent) instead of action without indent & Remove Any
+now correctly walks to the /path new ... I set earlier (but doesn't change the Debug Displaystate above head)

@@ -9,34 +9,23 @@
   "Instructions": [
     {
       "Sensor": {
-        "Type": "Any"
-      },
-      "BodyMotion": {
-        "Type": "Nothing"
-      }
-    },
-    {
-      "Sensor": {
         "Type": "State",
         "State": "Idle"
       },
-      "BodyMotion": {
-        "Type": "Nothing"
-      },
-      "Actions": [
+      "Instructions": [
         {
-          "Type": "State",
-          "State": ".Default"
-        },
-        {
-          "Type": "Random",
           "Actions": [
             {
-              "Action": {
-                "Type": "State",
-                "State": "FollowPath"
-              },
-              "Weight": 1
+              "Type": "Random",
+              "Actions": [
+                {
+                  "Action": {
+                    "Type": "State",
+                    "State": "FollowPath"
+                  },
+                  "Weight": 1
+                }
+              ]
             }
           ]
         }
