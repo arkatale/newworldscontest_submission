@@ -1,5 +1,56 @@
 {
   "Type": "Abstract",
+  "Appearance": { "Compute": "Appearance" },
+  "Debug": "DisplayState",
+  "DropList": { "Compute": "DropList" },
+  "MaxHealth": { "Compute": "MaxHealth" },
+  "NameTranslationKey": { "Compute": "NameTranslationKey" },
+  "Instructions": [
+    {
+      "Sensor": {
+        "Type": "Any"
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      }
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      },
+      "Actions": [
+        {
+          "Type": "State",
+          "State": ".Default"
+        },
+        {
+          "Type": "Random",
+          "Actions": [
+            {
+              "Action": {
+                "Type": "State",
+                "State": "FollowPath"
+              },
+              "Weight": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "FollowPath"
+      },
+      "Actions": {
+        "Reference": "Component_Instruction_Intelligent_Idle_Motion_Follow_Path"
+      }
+    }
+  ],
   "Parameters": {
     "Appearance": {
       "Value": "Bear_Grizzly",
@@ -18,9 +69,6 @@
       "Description": "Translation key for NPC name display"
     }
   },
-  "Appearance": { "Compute": "Appearance" },
-  "DropList": { "Compute": "DropList" },
-  "MaxHealth": { "Compute": "MaxHealth" },
   "MotionControllerList": [
     {
       "Type": "Walk",
@@ -29,16 +77,5 @@
       "MaxFallSpeed": 8,
       "Acceleration": 10
     }
-  ],
-  "Instructions": [
-    {
-      "Sensor": {
-        "Type": "Any"
-      },
-      "BodyMotion": {
-        "Type": "Nothing"
-      }
-    }
-  ],
-  "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  ]
 }
