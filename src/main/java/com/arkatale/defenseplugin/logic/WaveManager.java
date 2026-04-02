@@ -129,8 +129,20 @@ if (attackerComponent == null){
             );
 
         }
-        var removeAfterSeconds = 8;
-        removeNPCs(removeAfterSeconds);
+
+        CompletableFuture.runAsync(() -> {
+            world.execute(() -> {
+                for (var pair : spawnedNPCsThisWave) {
+                    var npcRef = pair.key();
+//                    store.ensureComponent(npcRef, AttackerComponent.getComponentType());
+                    //^^commented because also produces Error:
+                    //Caused by: java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
+                }
+            });
+        }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
+
+//        var removeAfterSeconds = 8;
+//        removeNPCs(removeAfterSeconds);
 
     }
 
