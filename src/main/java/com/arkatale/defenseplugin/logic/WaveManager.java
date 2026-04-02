@@ -148,7 +148,7 @@ if (attackerComponent == null){
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
 
-        while (true){
+        while (getCorruption() < 10){
             CompletableFuture.runAsync(() -> {
                 world.execute(() -> {
                    var pos = toDefendPosition.toVector3d();
@@ -170,10 +170,11 @@ if (attackerComponent == null){
 
                     if(getCorruption() > 10){
                         Universe.get().sendMessage(Message.raw("You loose"));
+                        return;
                     }
 
                 });
-            }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
+            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
         }
 
 //        var removeAfterSeconds = 8;
