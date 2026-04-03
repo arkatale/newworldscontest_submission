@@ -177,8 +177,8 @@ if (attackerComponent == null){
 //            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
 //        }
 
-//        var removeAfterSeconds = 8;
-//        removeNPCs(removeAfterSeconds);
+        var removeAfterSeconds = 8;
+        removeNPCs(removeAfterSeconds);
 
     }
 
