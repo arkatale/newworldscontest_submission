@@ -14,6 +14,12 @@ import org.jspecify.annotations.Nullable;
 public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
     @Override
     public void tick(float v, int i, @NonNull ArchetypeChunk<ChunkStore> archetypeChunk, @NonNull Store<ChunkStore> store, @NonNull CommandBuffer<ChunkStore> commandBuffer) {
+        var defendBlock = archetypeChunk.getComponent(i, DefendBlockComponent.getComponentType());
+
+        if(defendBlock == null){
+            var t = "";
+        }
+
         var test = "";
     }
 
