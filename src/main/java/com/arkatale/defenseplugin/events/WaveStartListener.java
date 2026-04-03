@@ -10,6 +10,7 @@ import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent;
+import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
@@ -51,15 +52,25 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
             }
 //            var worldChunkStore = world.getChunkStore();
 //            var chunkArcheTypeChunk = worldChunkStore.
-            Holder<ChunkStore> defendBlock = world.getBlockComponentHolder(placeholderPositionToDefend.x, placeholderPositionToDefend.y, placeholderPositionToDefend.z);
-            if (defendBlock == null)
-                return;
-            var defendComponent = defendBlock.ensureAndGetComponent(DefendBlockComponent.getComponentType());
+            Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(world, placeholderPositionToDefend.x, placeholderPositionToDefend.y, placeholderPositionToDefend.z);
 
-            if(defendComponent == null)
+            if (blockRef == null || !blockRef.isValid()) {
+                return;
+            }
+
+            Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
+            DefendBlockComponent defendBlockComponent = (DefendBlockComponent) chunkStore.getComponent(blockRef, DefendBlockComponent.getComponentType());
+
+
+            if(defendBlockComponent == null)
                 return;
 
-            defendComponent.setCorruption(defendComponent.getCorruption()+1);
+            world.execute(
+                    () -> {
+                        defendBlockComponent.setCorruption(defendBlockComponent.getCorruption()+1);
+
+                    }
+            );
 
             Pair<Ref<EntityStore>, INonPlayerCharacter> result;
             result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
