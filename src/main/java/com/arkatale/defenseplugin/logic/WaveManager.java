@@ -148,34 +148,34 @@ if (attackerComponent == null){
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
 
-        while (getCorruption() < 10){
-            CompletableFuture.runAsync(() -> {
-                world.execute(() -> {
-                   var pos = toDefendPosition.toVector3d();
-                    SpatialResource<Ref<EntityStore>, EntityStore> spatial = store.getResource(EntityModule.get().getEntitySpatialResourceType());
-                        List<Ref<EntityStore>> entities = SpatialResource.getThreadLocalReferenceList();
-//                    spatial.getSpatialStructure().collect(toDefendPosition, 3, players);
-                    spatial.getSpatialStructure().collect(pos, 3d, entities);
-
-                    for(var entity : entities){
-//                        todo check if has AttackerComponent - at later time if that works then
-                        var store = entity.getStore();
-//                        store.getComponent(entity, NPCComp)
-                        NPCEntity npcComponent = store.getComponent(entity, Objects.requireNonNull(NPCEntity.getComponentType()));
-                        if(npcComponent == null) continue;
-//                        Universe.get().sendMessage(Message.raw("corruption +1"));
-                        setCorruption(getCorruption()+1);
-
-                    }
-
-                    if(getCorruption() > 10){
-                        Universe.get().sendMessage(Message.raw("You loose"));
-                        return;
-                    }
-
-                });
-            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
-        }
+//        while (getCorruption() < 10){
+//            CompletableFuture.runAsync(() -> {
+//                world.execute(() -> {
+//                   var pos = toDefendPosition.toVector3d();
+//                    SpatialResource<Ref<EntityStore>, EntityStore> spatial = store.getResource(EntityModule.get().getEntitySpatialResourceType());
+//                        List<Ref<EntityStore>> entities = SpatialResource.getThreadLocalReferenceList();
+////                    spatial.getSpatialStructure().collect(toDefendPosition, 3, players);
+//                    spatial.getSpatialStructure().collect(pos, 3d, entities);
+//
+//                    for(var entity : entities){
+////                        todo check if has AttackerComponent - at later time if that works then
+//                        var store = entity.getStore();
+////                        store.getComponent(entity, NPCComp)
+//                        NPCEntity npcComponent = store.getComponent(entity, Objects.requireNonNull(NPCEntity.getComponentType()));
+//                        if(npcComponent == null) continue;
+////                        Universe.get().sendMessage(Message.raw("corruption +1"));
+//                        setCorruption(getCorruption()+1);
+//
+//                    }
+//
+//                    if(getCorruption() > 10){
+//                        Universe.get().sendMessage(Message.raw("You loose"));
+//                        return;
+//                    }
+//
+//                });
+//            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
+//        }
 
 //        var removeAfterSeconds = 8;
 //        removeNPCs(removeAfterSeconds);
