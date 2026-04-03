@@ -31,6 +31,10 @@ public class DefendBlockComponent implements Component<ChunkStore> {
         return corruption;
     }
 
+    public void setCorruption(int corruption) {
+        this.corruption = corruption;
+    }
+
     private static ComponentType<ChunkStore,DefendBlockComponent> componentType;
 
     public static void setComponentType(ComponentType<ChunkStore,DefendBlockComponent> componentType) {

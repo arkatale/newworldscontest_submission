@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.core.event.events.ecs.UseBlockEvent;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
+import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.arkatale.defenseplugin.logic.WaveManager;
 import com.hypixel.hytale.server.npc.NPCPlugin;
@@ -32,10 +33,7 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 
     @Override
     public void handle(int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer, UseBlockEvent.Pre pre) {
-//        var defendBlock = archetypeChunk.getComponent(index, DefendBlockComponent.getComponentType());
-//
-//        if(defendBlock == null)
-//            return;
+
 
         var placeholderPositionToDefend = pre.getTargetBlock();
         var player = archetypeChunk.getComponent(index, Player.getComponentType());
@@ -48,14 +46,25 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         world.execute(() -> {
             var blockToCheck = world.getBlockType(placeholderPositionToDefend);
 
-            if(!  blockToCheck.getId().startsWith("AT_Defend_Core")){
+            if (!blockToCheck.getId().startsWith("AT_Defend_Core")) {
                 return;
             }
+//            var worldChunkStore = world.getChunkStore();
+//            var chunkArcheTypeChunk = worldChunkStore.
+            Holder<ChunkStore> defendBlock = world.getBlockComponentHolder(placeholderPositionToDefend.x, placeholderPositionToDefend.y, placeholderPositionToDefend.z);
+            if (defendBlock == null)
+                return;
+            var defendComponent = defendBlock.ensureAndGetComponent(DefendBlockComponent.getComponentType());
+
+            if(defendComponent == null)
+                return;
+
+            defendComponent.setCorruption(defendComponent.getCorruption()+1);
 
             Pair<Ref<EntityStore>, INonPlayerCharacter> result;
             result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
 
-            if(result != null){
+            if (result != null) {
 
                 var npcRef = result.first();
 //                var attackerComponent = store.getComponent(npcRef, AttackerComponent.getComponentType());
@@ -67,12 +76,12 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 //                [2026/04/02 13:16:33 SEVERE]                [Hytale] Exception in thread Thread[#100,WorldThread - default,5,InnocuousForkJoinWorkerThreadGroup]:
 //                    java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
 
-            defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, result, player);
+                defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, result, player);
             }
 
         });
         ;
-        Universe.get().sendMessage(Message.raw("test"));
+//        Universe.get().sendMessage(Message.raw("test"));
 
 
     }
