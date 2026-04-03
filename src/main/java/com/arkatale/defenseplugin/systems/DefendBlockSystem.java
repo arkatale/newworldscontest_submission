@@ -21,6 +21,10 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
             return;
         }
 
+        var position = defendBlock.getPositionInWorld();
+
+        if(position == null) return;
+
         var test = "";
     }
 

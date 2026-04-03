@@ -67,8 +67,8 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 
             world.execute(
                     () -> {
-                        defendBlockComponent.setCorruption(defendBlockComponent.getCorruption()+1);
-
+//                        defendBlockComponent.setCorruption(defendBlockComponent.getCorruption()+1);
+                        defendBlockComponent.setPositionInWorld(placeholderPositionToDefend);
                     }
             );
 
