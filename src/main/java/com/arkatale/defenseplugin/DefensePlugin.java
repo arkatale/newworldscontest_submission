@@ -9,6 +9,7 @@ import com.arkatale.defenseplugin.events.ExampleEvent;
 import com.arkatale.defenseplugin.events.WaveStartListener;
 import com.arkatale.defenseplugin.logic.DefendSession;
 import com.arkatale.defenseplugin.systems.AttackerSystem;
+import com.arkatale.defenseplugin.systems.DefendBlockSystem;
 import com.arkatale.defenseplugin.systems.TowerTickingSystem;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -70,6 +71,7 @@ public class DefensePlugin extends JavaPlugin {
     protected void start() {
         this.getEntityStoreRegistry().registerSystem(new TowerTickingSystem(5));
 //        this.getEntityStoreRegistry().registerSystem(new AttackerSystem());
+        this.getChunkStoreRegistry().registerSystem(new DefendBlockSystem());
     }
 
     public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store, Pair<Ref<EntityStore>, INonPlayerCharacter> target, Player startingPlayer){

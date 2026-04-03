@@ -29,6 +29,13 @@
     ],
     "Interactions": {
       "Use": {}
+    },
+    "BlockEntity": {
+      "Components": {
+        "AT_DefendBlockComponent": {
+          "Corruption": 0
+        }
+      }
     }
   },
   "Tags": {
