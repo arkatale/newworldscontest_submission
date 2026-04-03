@@ -109,7 +109,7 @@ public class WaveManager {
             //todo find ground position and avoid spawning in ground
             world.execute(
                     () -> {
-                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "NexusAttacker_Goblin", null, position, rotation);
+                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Skeleton_Archer", null, position, rotation);
                         if (result != null) {
                             spawnedNPCsThisWave.add(result);
                             Ref<EntityStore> npcRef = result.first();
@@ -173,8 +173,18 @@ if (attackerComponent == null){
 // Equip a Thorium Helmet using the InventoryHelper
         InventoryHelper.useArmor(inventory.getArmor(), "Armor_Thorium_Head");
 
-        Ref<EntityStore> target1 = target.key();
-        npcComponent.onFlockSetTarget("LockedTarget", target1);
+//        Ref<EntityStore> target1 = target.key();
+//        npcComponent.onFlockSetTarget("LockedTarget", target1);
+        //fix by commenting - because i have commented the Crocodile because didn't work with setting LocketTarget
+        //and was getting annoying that it spawned a Crocodile each use/interact f
+        //[2026/04/03 17:32:58 SEVERE]                  [World|default] Failed to run task!
+        //java.lang.NullPointerException: Cannot invoke "it.unimi.dsi.fastutil.Pair.key()" because "this.target" is null
+        //	at com.arkatale.defenseplugin.logic.WaveManager.setupNPCInventory(WaveManager.java:176)
+        //	at com.arkatale.defenseplugin.logic.WaveManager.lambda$spawnWave$0(WaveManager.java:129)
+//        npcComponent.setLeashPoint(toDefendPosition.toVector3d()); //hat sich nicht dahin bewegt - schade
+        //aber gleichzeitig gut weil sonst hätte 6 tage wo ich npc probiert habe / tutorial von hytalemodding.dev
+        //verschwendet
+
 //        npcComponent.
     }
 
