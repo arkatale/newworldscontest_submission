@@ -18,6 +18,7 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
 
         if(defendBlock == null){
             var t = "";
+            return;
         }
 
         var test = "";

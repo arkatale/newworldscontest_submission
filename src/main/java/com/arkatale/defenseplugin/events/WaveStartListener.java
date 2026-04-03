@@ -2,6 +2,7 @@ package com.arkatale.defenseplugin.events;
 
 import com.arkatale.defenseplugin.DefensePlugin;
 import com.arkatale.defenseplugin.components.AttackerComponent;
+import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
@@ -31,18 +32,11 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 
     @Override
     public void handle(int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer, UseBlockEvent.Pre pre) {
+//        var defendBlock = archetypeChunk.getComponent(index, DefendBlockComponent.getComponentType());
+//
+//        if(defendBlock == null)
+//            return;
 
-        //Message.parse("test") Fehler, weil text und kein JSON ist
-        //why hast du wrap in PARSE vorgeschlagen IntelliJ Idea?
-        //[2026/03/23 19:07:05 SEVERE] [InteractionSystems$TickInteractionManagerSystem] Exception while ticking entity interactions! Removing!
-        //java.io.IOException: Unexpected character: 74, 't' expected '{'!
-        //	at com.hypixel.hytale.codec.util.RawJsonReader.expecting(RawJsonReader.java:922)
-        //	at com.hypixel.hytale.codec.util.RawJsonReader.expect(RawJsonReader.java:357)
-        //	at com.hypixel.hytale.codec.builder.BuilderCodec.decodeJson0(BuilderCodec.java:309)
-        //	at com.hypixel.hytale.codec.builder.BuilderCodec.decodeJson(BuilderCodec.java:303)
-        //	at com.hypixel.hytale.codec.function.FunctionCodec.decodeJson(FunctionCodec.java:52)
-        //	at com.hypixel.hytale.server.core.Message.parse(Message.java:524)
-        //	at com.arkatale.defenseplugin.events.WaveStartListener.handle(WaveStartListener.java:30)
         var placeholderPositionToDefend = pre.getTargetBlock();
         var player = archetypeChunk.getComponent(index, Player.getComponentType());
         World world = player.getWorld();
@@ -52,6 +46,12 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         var rotation = Vector3f.lookAt(position);
 
         world.execute(() -> {
+            var blockToCheck = world.getBlockType(placeholderPositionToDefend);
+
+            if(!  blockToCheck.getId().startsWith("AT_Defend_Core")){
+                return;
+            }
+
             Pair<Ref<EntityStore>, INonPlayerCharacter> result;
             result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
 
