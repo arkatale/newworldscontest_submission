@@ -96,6 +96,12 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
                         NPCEntity npcComponent = entityStore.getStore().getComponent(entity, Objects.requireNonNull(NPCEntity.getComponentType()));
 //                        fix by using store of entity store instead of chunkstore param Inferred type 'T' for type parameter 'T' is not within its bound; should implement 'com.hypixel.hytale.component.Component<com.hypixel.hytale.server.core.universe.world.storage.ChunkStore>'
                         if(npcComponent == null) continue;
+
+                        var npcTypeId = npcComponent.getNPCTypeId();
+
+                        if(! npcTypeId.startsWith("NexusAttacker_"))
+                            return;
+
 //                        Universe.get().sendMessage(Message.raw("corruption +1"));
                         defendBlock.setCorruption(defendBlock.getCorruption()+1);
 
