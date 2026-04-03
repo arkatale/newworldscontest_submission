@@ -13,6 +13,7 @@ import com.hypixel.hytale.component.system.tick.DelayedEntitySystem;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
@@ -51,11 +52,17 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
 //            data.dt = 0.0F;
 //            super.tick(fullDt, systemIndex, store);
 //        }
+        if(current == null){
+            current = 0f;
+            keineAhnung.put(i, 0f);
+        }
+
         var newValue = current + v;
         keineAhnung.replace(i, newValue);
 
-        if(newValue >= 2f){
+        if(newValue >= 1f){
             stuff(v, i, archetypeChunk, store, commandBuffer);
+            keineAhnung.replace(i, 0f);
         }
     }
         public void stuff(float v, int i, @NonNull ArchetypeChunk<ChunkStore> archetypeChunk, @NonNull Store<ChunkStore> store, @NonNull CommandBuffer<ChunkStore> commandBuffer) {
@@ -80,7 +87,7 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
                         List<Ref<EntityStore>> entities = SpatialResource.getThreadLocalReferenceList();
 //                    spatial.getSpatialStructure().collect(toDefendPosition, 3, players);
                     spatial.getSpatialStructure().collect(pos, 3d, entities);
-
+                    var posI = toDefendPosition;
                     for(var entity : entities){
 //                        todo check if has AttackerComponent - at later time if that works then
 //                        var store = entity.getStore();
@@ -95,6 +102,7 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
 
                     if(defendBlock.getCorruption() > 10){
 //                        Universe.get().sendMessage(Message.raw("You loose"));
+                        world.setBlock(posI.x, posI.y, posI.z, String.valueOf(BlockType.EMPTY));
                         return;
                     }
 
