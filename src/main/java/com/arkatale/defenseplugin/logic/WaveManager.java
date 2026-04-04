@@ -50,8 +50,8 @@ public class WaveManager {
     CountdownDisplay countdownDisplay;
     private int corruption = 0;
 //    private ByteToIntMap patrolPathMarkers;
-private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
-
+//private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
+    PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {};
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
@@ -111,10 +111,10 @@ private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayLis
         var playerRef = Universe.get().getPlayers().get(0);
         var ref = playerRef.getReference();
 
-        if(patrolPathMarkers.size() > 0){
+        if(mutablePatrolPathMarkers.length > 0){
             world.execute(
                     () -> {
-                        var ref1 = patrolPathMarkers.getFirst().getReference();
+                        var ref1 = mutablePatrolPathMarkers[0].getReference();
                         store.removeEntity(ref1, RemoveReason.REMOVE);
                     }
             );
@@ -131,7 +131,7 @@ private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayLis
                 () -> {
                     var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
 //                    patrolPathMarkers.put(0, entity);
-                    patrolPathMarkers.add(entity);
+                    mutablePatrolPathMarkers[0] = entity;
 //                    store.removeEntity(entity.getReference(), RemoveReason.REMOVE);
                 }
         );
