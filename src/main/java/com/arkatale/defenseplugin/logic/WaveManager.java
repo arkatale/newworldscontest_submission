@@ -2,6 +2,7 @@ package com.arkatale.defenseplugin.logic;
 
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.ext.CountdownDisplay;
+import com.google.crypto.tink.subtle.Random;
 import com.hypixel.hytale.component.Archetype;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -109,7 +110,12 @@ public class WaveManager {
             //todo find ground position and avoid spawning in ground
             world.execute(
                     () -> {
-                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, "Skeleton_Archer", null, position, rotation);
+                        var random = Random.randInt(2);
+                        var npcTypeToSpawn = "NexusAttacker_Skeleton_Archer";
+                        if(random > 0){
+                            npcTypeToSpawn = "NexusAttacker_Goblin";
+                        }
+                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, npcTypeToSpawn, null, position, rotation);
                         if (result != null) {
                             spawnedNPCsThisWave.add(result);
                             Ref<EntityStore> npcRef = result.first();
@@ -154,8 +160,8 @@ if (attackerComponent == null){
 //            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
 //        }
 
-        var removeAfterSeconds = 8;
-        removeNPCs(removeAfterSeconds);
+//        var removeAfterSeconds = 8;
+//        removeNPCs(removeAfterSeconds);
 
     }
 
@@ -168,10 +174,10 @@ if (attackerComponent == null){
         Inventory inventory = npcComponent.getInventory();
 
 // Add a Thorium Mace to the first slot of the hotbar
-        inventory.getHotbar().addItemStackToSlot((short) 0, new ItemStack("Weapon_Mace_Thorium", 1));
+//        inventory.getHotbar().addItemStackToSlot((short) 0, new ItemStack("Weapon_Mace_Thorium", 1));
 
 // Equip a Thorium Helmet using the InventoryHelper
-        InventoryHelper.useArmor(inventory.getArmor(), "Armor_Thorium_Head");
+//        InventoryHelper.useArmor(inventory.getArmor(), "Armor_Thorium_Head");
 
 //        Ref<EntityStore> target1 = target.key();
 //        npcComponent.onFlockSetTarget("LockedTarget", target1);
@@ -186,6 +192,7 @@ if (attackerComponent == null){
         //verschwendet
 
 //        npcComponent.
+//        npcComponent.setAppearance(npcRef, "Skeleton_Archmage", );
     }
 
     private void removeNPCs(int removeAfterSeconds) {
