@@ -3,13 +3,11 @@ package com.arkatale.defenseplugin.logic;
 //import ch.randelshofer.fastdoubleparser.bte.ByteToIntMap;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.ext.CountdownDisplay;
-import com.arkatale.defenseplugin.lib.ATPrefabPathHelper;
 import com.google.crypto.tink.subtle.Random;
 import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.inventory.Inventory;
@@ -27,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class WaveManager {
-    private final PatrolPathMarkerEntity target;
+    private final PatrolPathMarkerEntity patrolPathMarkerEntity;
     private final DefendSession defendSession;
     private int currentWave = 0;
     private GameState gameState;
@@ -42,17 +40,17 @@ public class WaveManager {
 //private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
     PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {null};
 
-    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, PatrolPathMarkerEntity target, DefendSession defendSession) {
+    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, PatrolPathMarkerEntity patrolPathMarkerEntity, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
         this.world = world;
         this.store = entityStore.getStore();
-        this.target = target;
+        this.patrolPathMarkerEntity = patrolPathMarkerEntity;
         this.defendSession = defendSession;
         countdownDisplay = new CountdownDisplay(defendSession);
     }
 
     public void cleanup(){
-        store.removeEntity(target.getReference(), RemoveReason.REMOVE);
+        store.removeEntity(patrolPathMarkerEntity.getReference(), RemoveReason.REMOVE);
     }
 
     public int getCurrentWave() {

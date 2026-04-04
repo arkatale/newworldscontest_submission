@@ -100,6 +100,8 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
                 //	at com.arkatale.defenseplugin.systems.DefendBlockSystem.lambda$stuff$0(DefendBlockSystem.java:106)
 
 //                        });
+
+                defendBlock.getDefendSession().getWaveManager().cleanup();
                 return;
             }
 
