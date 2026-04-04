@@ -3,10 +3,7 @@ package com.arkatale.defenseplugin.systems;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.arkatale.defenseplugin.logic.DefendSession;
-import com.hypixel.hytale.component.ArchetypeChunk;
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.component.system.tick.DelayedEntitySystem;
@@ -122,6 +119,8 @@ public class DefendBlockSystem extends EntityTickingSystem<ChunkStore> {
 //                        Universe.get().sendMessage(Message.raw("corruption +1"));
                         defendBlock.setCorruption(defendBlock.getCorruption()+1);
 
+//                        commandBuffer.removeEntity(entity, RemoveReason.REMOVE);
+                        entityStore.getStore().removeEntity(entity, RemoveReason.REMOVE);
                     }
 
                 });
