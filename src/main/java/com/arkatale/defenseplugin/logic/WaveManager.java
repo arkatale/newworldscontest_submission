@@ -127,7 +127,12 @@ private final Map<Integer, PatrolPathMarkerEntity> patrolPathMarkers = new Concu
         UUID uuid = UUID.randomUUID();
 //        Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
 //        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+        world.execute(
+                () -> {
         PrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+
+                }
+        );
 //        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
 //        patrolPathMarkers.put(0, entity);
         var basePos = toDefendPosition.clone().add(15, 0, 0);
