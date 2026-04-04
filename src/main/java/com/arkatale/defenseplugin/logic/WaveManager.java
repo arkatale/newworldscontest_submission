@@ -125,10 +125,11 @@ private final Map<Integer, PatrolPathMarkerEntity> patrolPathMarkers = new Concu
         Double pauseTime = (double)0.0F;
         Float obsvAngle = 0f;
         UUID uuid = UUID.randomUUID();
-        Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
-        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
-        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
-        patrolPathMarkers.put(0, entity);
+//        Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
+//        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+        PrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+//        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
+//        patrolPathMarkers.put(0, entity);
         var basePos = toDefendPosition.clone().add(15, 0, 0);
         for (int i = 0; i < 9; i++) {
 //            world.spawnEntity()
