@@ -8,8 +8,10 @@ import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.inventory.Inventory;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -173,12 +175,13 @@ if (attackerComponent == null){
 
         CompletableFuture.runAsync(() -> {
             world.execute(() -> {
-                for (var pair : spawnedNPCsThisWave) {
-                    var npcRef = pair.key();
-//                    store.ensureComponent(npcRef, AttackerComponent.getComponentType());
-                    //^^commented because also produces Error:
-                    //Caused by: java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
-                }
+//                for (var pair : spawnedNPCsThisWave) {
+//                    var npcRef = pair.key();
+////                    store.ensureComponent(npcRef, AttackerComponent.getComponentType());
+//                    //^^commented because also produces Error:
+//                    //Caused by: java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
+//                }
+                Universe.get().sendMessage(Message.raw("Time left in wave" ));
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
 
@@ -188,7 +191,7 @@ if (attackerComponent == null){
 //            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
 //        }
 
-        var removeAfterSeconds = 8;
+        var removeAfterSeconds = 30;
         removeNPCs(removeAfterSeconds);
 //        PrefabPathHelper. //there is no remove function
     }
@@ -228,20 +231,20 @@ if (attackerComponent == null){
 //        world.execute(() -> {
         CompletableFuture.runAsync(() -> {
             world.execute(() -> {
-//                for (var pair : spawnedNPCsThisWave) {
-//                    var entityRef = pair.key();
-//                    try {
-//                        if (entityRef.isValid()) {
-//                            var result = store.removeEntity(entityRef, RemoveReason.REMOVE);
-//                            HytaleLogger.getLogger().atInfo().log("Entity removed: " + result);
-//                        } else {
-//                            HytaleLogger.getLogger().atWarning().log("Entity was not valid, skipping remove");
-//                        }
-//                    } catch (Exception e) {
-//                        HytaleLogger.getLogger().atSevere().log("Exception during removeEntity", e);
-//                    }
-//                }
-//                spawnedNPCsThisWave.clear(); // Liste nach Abarbeitung leeren
+                for (var pair : spawnedNPCsThisWave) {
+                    var entityRef = pair.key();
+                    try {
+                        if (entityRef.isValid()) {
+                            var result = store.removeEntity(entityRef, RemoveReason.REMOVE);
+                            HytaleLogger.getLogger().atInfo().log("Entity removed: " + result);
+                        } else {
+                            HytaleLogger.getLogger().atWarning().log("Entity was not valid, skipping remove");
+                        }
+                    } catch (Exception e) {
+                        HytaleLogger.getLogger().atSevere().log("Exception during removeEntity", e);
+                    }
+                }
+                spawnedNPCsThisWave.clear(); // Liste nach Abarbeitung leeren
 
             });
         }, CompletableFuture.delayedExecutor(removeAfterSeconds, TimeUnit.SECONDS));
