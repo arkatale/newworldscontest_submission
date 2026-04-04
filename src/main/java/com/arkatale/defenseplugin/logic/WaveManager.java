@@ -129,12 +129,13 @@ private final Map<Integer, PatrolPathMarkerEntity> patrolPathMarkers = new Concu
 //        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
         world.execute(
                 () -> {
-        PrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
-
+                    var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+                    patrolPathMarkers.put(0, entity);
+                    store.removeEntity(entity.getReference(), RemoveReason.REMOVE);
                 }
         );
 //        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
-//        patrolPathMarkers.put(0, entity);
+
         var basePos = toDefendPosition.clone().add(15, 0, 0);
         for (int i = 0; i < 9; i++) {
 //            world.spawnEntity()
