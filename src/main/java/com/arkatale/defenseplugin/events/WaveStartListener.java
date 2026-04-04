@@ -3,6 +3,7 @@ package com.arkatale.defenseplugin.events;
 import com.arkatale.defenseplugin.DefensePlugin;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
+import com.arkatale.defenseplugin.lib.ATPrefabPathHelper;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
@@ -22,6 +23,8 @@ import it.unimi.dsi.fastutil.Pair;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.UUID;
+
 //public class WaveStartListener implements EventListener<Player> {
 public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEvent.Pre> {
 
@@ -38,6 +41,9 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 
         var placeholderPositionToDefend = pre.getTargetBlock();
         var player = archetypeChunk.getComponent(index, Player.getComponentType());
+
+        var ref = player.getReference();
+
         World world = player.getWorld();
         EntityStore entityStore = player.getWorld().getEntityStore();
         var playerTransform = player.getTransformComponent();
@@ -72,6 +78,16 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
                     }
             );
 
+            String pathName = "ArkaTale_CoreSiege";
+            Double pauseTime = (double)0.0F;
+            Float obsvAngle = 0f;
+            UUID uuid = UUID.randomUUID();
+//        Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
+//        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+
+                        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+
+
             Pair<Ref<EntityStore>, INonPlayerCharacter> result;
 //            result = NPCPlugin.get().spawnNPC(store, "Crocodile", null, position, rotation);
 //            if (result == null) return;
@@ -86,7 +102,7 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 //                [2026/04/02 13:16:33 SEVERE]                [Hytale] Exception in thread Thread[#100,WorldThread - default,5,InnocuousForkJoinWorkerThreadGroup]:
 //                    java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
 
-            defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, null, player);
+            defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, entity, player);
 
 
         });

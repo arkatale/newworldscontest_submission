@@ -5,40 +5,29 @@ import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.ext.CountdownDisplay;
 import com.arkatale.defenseplugin.lib.ATPrefabPathHelper;
 import com.google.crypto.tink.subtle.Random;
-import com.hypixel.hytale.builtin.buildertools.BuilderToolsPlugin;
-import com.hypixel.hytale.builtin.path.commands.PrefabPathHelper;
 import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
-import com.hypixel.hytale.component.Archetype;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
-import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.Inventory;
-import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
-import com.hypixel.hytale.server.npc.util.InventoryHelper;
 import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 //import sun.awt.windows.WChoicePeer;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class WaveManager {
-    private final Pair<Ref<EntityStore>, INonPlayerCharacter> target;
+    private final PatrolPathMarkerEntity target;
     private final DefendSession defendSession;
     private int currentWave = 0;
     private GameState gameState;
@@ -51,9 +40,9 @@ public class WaveManager {
     private int corruption = 0;
 //    private ByteToIntMap patrolPathMarkers;
 //private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
-    PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {};
+    PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {null};
 
-    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target, DefendSession defendSession) {
+    public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, PatrolPathMarkerEntity target, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
         this.world = world;
         this.store = entityStore.getStore();
@@ -129,9 +118,9 @@ public class WaveManager {
 //        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
         world.execute(
                 () -> {
-                    var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+//                    var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
 //                    patrolPathMarkers.put(0, entity);
-                    mutablePatrolPathMarkers[0] = entity;
+//                    mutablePatrolPathMarkers[0] = entity;
 //                    store.removeEntity(entity.getReference(), RemoveReason.REMOVE);
                 }
         );
@@ -197,8 +186,8 @@ if (attackerComponent == null){
 //            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
 //        }
 
-//        var removeAfterSeconds = 8;
-//        removeNPCs(removeAfterSeconds);
+        var removeAfterSeconds = 8;
+        removeNPCs(removeAfterSeconds);
 //        PrefabPathHelper. //there is no remove function
     }
 
@@ -237,20 +226,21 @@ if (attackerComponent == null){
 //        world.execute(() -> {
         CompletableFuture.runAsync(() -> {
             world.execute(() -> {
-                for (var pair : spawnedNPCsThisWave) {
-                    var entityRef = pair.key();
-                    try {
-                        if (entityRef.isValid()) {
-                            var result = store.removeEntity(entityRef, RemoveReason.REMOVE);
-                            HytaleLogger.getLogger().atInfo().log("Entity removed: " + result);
-                        } else {
-                            HytaleLogger.getLogger().atWarning().log("Entity was not valid, skipping remove");
-                        }
-                    } catch (Exception e) {
-                        HytaleLogger.getLogger().atSevere().log("Exception during removeEntity", e);
-                    }
-                }
-                spawnedNPCsThisWave.clear(); // Liste nach Abarbeitung leeren
+//                for (var pair : spawnedNPCsThisWave) {
+//                    var entityRef = pair.key();
+//                    try {
+//                        if (entityRef.isValid()) {
+//                            var result = store.removeEntity(entityRef, RemoveReason.REMOVE);
+//                            HytaleLogger.getLogger().atInfo().log("Entity removed: " + result);
+//                        } else {
+//                            HytaleLogger.getLogger().atWarning().log("Entity was not valid, skipping remove");
+//                        }
+//                    } catch (Exception e) {
+//                        HytaleLogger.getLogger().atSevere().log("Exception during removeEntity", e);
+//                    }
+//                }
+//                spawnedNPCsThisWave.clear(); // Liste nach Abarbeitung leeren
+                store.removeEntity(target.getReference(), RemoveReason.REMOVE);
             });
         }, CompletableFuture.delayedExecutor(removeAfterSeconds, TimeUnit.SECONDS));
 

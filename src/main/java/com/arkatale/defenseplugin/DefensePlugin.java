@@ -8,21 +8,17 @@ import com.arkatale.defenseplugin.components.TowerComponent;
 import com.arkatale.defenseplugin.events.ExampleEvent;
 import com.arkatale.defenseplugin.events.WaveStartListener;
 import com.arkatale.defenseplugin.logic.DefendSession;
-import com.arkatale.defenseplugin.systems.AttackerSystem;
 import com.arkatale.defenseplugin.systems.DefendBlockSystem;
 import com.arkatale.defenseplugin.systems.TowerTickingSystem;
-import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import com.arkatale.defenseplugin.logic.WaveManager;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import it.unimi.dsi.fastutil.Pair;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -74,7 +70,7 @@ public class DefensePlugin extends JavaPlugin {
         this.getChunkStoreRegistry().registerSystem(new DefendBlockSystem());
     }
 
-    public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store, Pair<Ref<EntityStore>, INonPlayerCharacter> target, Player startingPlayer){
+    public DefendSession startDefenseAt(Vector3i defendPos, World world, EntityStore store, PatrolPathMarkerEntity target, Player startingPlayer){
 //        if(activeSessions.containsKey(defendPos)){
 //            return null;
 //        }
