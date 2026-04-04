@@ -3,6 +3,8 @@ package com.arkatale.defenseplugin.logic;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.ext.CountdownDisplay;
 import com.google.crypto.tink.subtle.Random;
+import com.hypixel.hytale.builtin.buildertools.BuilderToolsPlugin;
+import com.hypixel.hytale.builtin.path.commands.PrefabPathHelper;
 import com.hypixel.hytale.component.Archetype;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -12,6 +14,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.Inventory;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
@@ -29,6 +32,7 @@ import it.unimi.dsi.fastutil.objects.ObjectList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -100,6 +104,18 @@ public class WaveManager {
     }
 
     public void spawnWave() {
+        var playerRef = Universe.get().getPlayers().get(0);
+        var ref = playerRef.getReference();
+
+        //gehört hier nicht hin, aber ...
+        String pathName = "ArkaTale_CoreSiege";
+        Double pauseTime = (double)0.0F;
+        Float obsvAngle = 0f;
+        UUID uuid = UUID.randomUUID();
+        Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
+        PrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
+
         var basePos = toDefendPosition.clone().add(15, 0, 0);
         for (int i = 0; i < 9; i++) {
 //            world.spawnEntity()
@@ -162,7 +178,7 @@ if (attackerComponent == null){
 
 //        var removeAfterSeconds = 8;
 //        removeNPCs(removeAfterSeconds);
-
+//        PrefabPathHelper. //there is no remove function
     }
 
     private void setupNPCInventory(Ref<EntityStore> npcRef, Store<EntityStore> store) {
