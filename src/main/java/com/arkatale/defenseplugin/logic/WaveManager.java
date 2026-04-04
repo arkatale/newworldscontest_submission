@@ -1,10 +1,13 @@
 package com.arkatale.defenseplugin.logic;
 
+//import ch.randelshofer.fastdoubleparser.bte.ByteToIntMap;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.ext.CountdownDisplay;
+import com.arkatale.defenseplugin.lib.ATPrefabPathHelper;
 import com.google.crypto.tink.subtle.Random;
 import com.hypixel.hytale.builtin.buildertools.BuilderToolsPlugin;
 import com.hypixel.hytale.builtin.path.commands.PrefabPathHelper;
+import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.component.Archetype;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -29,11 +32,9 @@ import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 //import sun.awt.windows.WChoicePeer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class WaveManager {
@@ -48,6 +49,9 @@ public class WaveManager {
     private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
     CountdownDisplay countdownDisplay;
     private int corruption = 0;
+//    private ByteToIntMap patrolPathMarkers;
+private final Map<Integer, PatrolPathMarkerEntity> patrolPathMarkers = new ConcurrentHashMap<>();
+
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
@@ -107,15 +111,24 @@ public class WaveManager {
         var playerRef = Universe.get().getPlayers().get(0);
         var ref = playerRef.getReference();
 
+        if(patrolPathMarkers.size() > 0){
+            world.execute(
+                    () -> {
+                        var ref1 = patrolPathMarkers.get(0).getReference();
+                        store.removeEntity(ref1, RemoveReason.REMOVE);
+                    }
+            );
+        }
+
         //gehört hier nicht hin, aber ...
         String pathName = "ArkaTale_CoreSiege";
         Double pauseTime = (double)0.0F;
         Float obsvAngle = 0f;
         UUID uuid = UUID.randomUUID();
         Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
-        PrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
         BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
-
+        patrolPathMarkers.put(0, entity);
         var basePos = toDefendPosition.clone().add(15, 0, 0);
         for (int i = 0; i < 9; i++) {
 //            world.spawnEntity()
