@@ -1,5 +1,6 @@
 package com.arkatale.defenseplugin.components;
 
+import com.arkatale.defenseplugin.logic.DefendSession;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
@@ -19,6 +20,7 @@ public class DefendBlockComponent implements Component<ChunkStore> {
 
     private int corruption = 0;
     private Vector3i positionInWorld;
+    private DefendSession defendSession;
 
     public DefendBlockComponent(){} //needed for CODEC
     public DefendBlockComponent(DefendBlockComponent defendBlockComponent) {
@@ -54,5 +56,13 @@ public class DefendBlockComponent implements Component<ChunkStore> {
 
     public void setPositionInWorld(Vector3i positionInWorld) {
         this.positionInWorld = positionInWorld;
+    }
+
+    public DefendSession getDefendSession() {
+        return defendSession;
+    }
+
+    public void setDefendSession(DefendSession defendSession) {
+        this.defendSession = defendSession;
     }
 }

@@ -51,6 +51,10 @@ public class WaveManager {
         countdownDisplay = new CountdownDisplay(defendSession);
     }
 
+    public void cleanup(){
+        store.removeEntity(target.getReference(), RemoveReason.REMOVE);
+    }
+
     public int getCurrentWave() {
         return currentWave;
     }
@@ -240,7 +244,7 @@ if (attackerComponent == null){
 //                    }
 //                }
 //                spawnedNPCsThisWave.clear(); // Liste nach Abarbeitung leeren
-                store.removeEntity(target.getReference(), RemoveReason.REMOVE);
+
             });
         }, CompletableFuture.delayedExecutor(removeAfterSeconds, TimeUnit.SECONDS));
 

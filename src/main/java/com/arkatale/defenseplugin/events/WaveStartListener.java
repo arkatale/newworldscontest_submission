@@ -102,9 +102,9 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 //                [2026/04/02 13:16:33 SEVERE]                [Hytale] Exception in thread Thread[#100,WorldThread - default,5,InnocuousForkJoinWorkerThreadGroup]:
 //                    java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
 
-            defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, entity, player);
+            var defendSession = defensePlugin.startDefenseAt(placeholderPositionToDefend, world, entityStore, entity, player);
 
-
+            defendBlockComponent.setDefendSession(defendSession);
         });
         ;
 //        Universe.get().sendMessage(Message.raw("test"));
