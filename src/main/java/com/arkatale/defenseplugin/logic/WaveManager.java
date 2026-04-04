@@ -50,7 +50,7 @@ public class WaveManager {
     CountdownDisplay countdownDisplay;
     private int corruption = 0;
 //    private ByteToIntMap patrolPathMarkers;
-private final Map<Integer, PatrolPathMarkerEntity> patrolPathMarkers = new ConcurrentHashMap<>();
+private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
 
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, Pair<Ref<EntityStore>, INonPlayerCharacter> target, DefendSession defendSession) {
@@ -114,7 +114,7 @@ private final Map<Integer, PatrolPathMarkerEntity> patrolPathMarkers = new Concu
         if(patrolPathMarkers.size() > 0){
             world.execute(
                     () -> {
-                        var ref1 = patrolPathMarkers.get(0).getReference();
+                        var ref1 = patrolPathMarkers.getFirst().getReference();
                         store.removeEntity(ref1, RemoveReason.REMOVE);
                     }
             );
@@ -130,8 +130,9 @@ private final Map<Integer, PatrolPathMarkerEntity> patrolPathMarkers = new Concu
         world.execute(
                 () -> {
                     var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
-                    patrolPathMarkers.put(0, entity);
-                    store.removeEntity(entity.getReference(), RemoveReason.REMOVE);
+//                    patrolPathMarkers.put(0, entity);
+                    patrolPathMarkers.add(entity);
+//                    store.removeEntity(entity.getReference(), RemoveReason.REMOVE);
                 }
         );
 //        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
