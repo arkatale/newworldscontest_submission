@@ -74,7 +74,17 @@ public class WaveManager {
             gameState = GameState.COUNTDOWN;
             return true;
         }
-        var playerRef = Universe.get().getPlayers().get(0);
+        var player = defendSession.startingPlayer;
+
+        if(player == null){
+            Universe.get().sendMessage(Message.raw("Couldn't start because player is null"));
+            return false;
+        }
+
+//        var playerRef = Universe.get().getPlayers().get(0);
+        //TODO replace below because 'getPlayerRef()' is deprecated and marked for removal
+        var playerRef = player.getPlayerRef();
+
         countdownDisplay.startCountdown(3, playerRef, true);
         world.execute(
                 () -> {
@@ -103,7 +113,17 @@ public class WaveManager {
     }
 
     public void spawnWave() {
-        var playerRef = Universe.get().getPlayers().get(0);
+        var player = defendSession.startingPlayer;
+
+        if(player == null){
+            Universe.get().sendMessage(Message.raw("Couldn't start because player is null"));
+            return;
+        }
+
+//        var playerRef = Universe.get().getPlayers().get(0);
+        //TODO replace below because 'getPlayerRef()' is deprecated and marked for removal
+        var playerRef = player.getPlayerRef();
+
         var ref = playerRef.getReference();
 
         //gehört hier nicht hin, aber ...
