@@ -69,6 +69,12 @@
   </configuration>
   <configuration default="false" name="HytaleServer" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
+      <option name="env">
+        <map>
+          <entry key="-Dhytale.auth.enabled" value="false" />
+          <entry key="-Dsun.net.http.allowRestrictedHeaders" value="true" />
+        </map>
+      </option>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />

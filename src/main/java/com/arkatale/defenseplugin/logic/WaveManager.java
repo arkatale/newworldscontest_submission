@@ -87,6 +87,7 @@ public class WaveManager {
 
         countdownDisplay.startCountdown(3, playerRef, true).thenRun(
                 () -> {
+                    CompletableFuture.runAsync(() -> {
         world.execute(
                 () -> {
 
@@ -102,6 +103,7 @@ public class WaveManager {
 
                 }
         );
+                }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
                 }   );
         return false;
     }
@@ -204,7 +206,7 @@ if (attackerComponent == null){
 //            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
 //        }
 
-        var removeAfterSeconds = 10;
+        var removeAfterSeconds = 80;
         removeNPCs(removeAfterSeconds);
 //        PrefabPathHelper. //there is no remove function
     }
