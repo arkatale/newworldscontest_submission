@@ -41,7 +41,7 @@ public class WaveManager {
     private int corruption = 0;
 //    private ByteToIntMap patrolPathMarkers;
 //private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
-    PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {null};
+//    PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {null};
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, PatrolPathMarkerEntity patrolPathMarkerEntity, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
@@ -81,14 +81,14 @@ public class WaveManager {
                     CompletableFuture.runAsync(() ->
                             {
 //                                countdownSeconds = 1;
-                                 startCountdown(1);
+//                                 startCountdown(1);
                                  //TODO morgen
                                 //in größerem umkreis spawnen und mehrere und dann bis ende von welle
                                 //erst bei ende von welle despawn . vlt mit dem timer in npc drin
 
                                 spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
                             }
-                            , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
+                            , CompletableFuture.delayedExecutor(10, TimeUnit.SECONDS));
                 }
         );
         return false;
@@ -105,15 +105,6 @@ public class WaveManager {
     public void spawnWave() {
         var playerRef = Universe.get().getPlayers().get(0);
         var ref = playerRef.getReference();
-
-        if(mutablePatrolPathMarkers.length > 0){
-            world.execute(
-                    () -> {
-                        var ref1 = mutablePatrolPathMarkers[0].getReference();
-                        store.removeEntity(ref1, RemoveReason.REMOVE);
-                    }
-            );
-        }
 
         //gehört hier nicht hin, aber ...
         String pathName = "ArkaTale_CoreSiege";
