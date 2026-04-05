@@ -148,47 +148,7 @@ public class WaveManager {
 //        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
 
         var basePos = toDefendPosition.clone().add(15, 0, 0);
-        for (int i = 0; i < 9; i++) {
-//            world.spawnEntity()
-            //TODO
-            //position and rotation
-            var position = basePos.clone().add(i, 0, 0).toVector3d();
-            var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
-            //todo find ground position and avoid spawning in ground
-            world.execute(
-                    () -> {
-                        var random = Random.randInt(2);
-                        var npcTypeToSpawn = "NexusAttacker_Skeleton_Archer";
-                        if(random > 0){
-                            npcTypeToSpawn = "NexusAttacker_Goblin";
-                        }
-                        Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, npcTypeToSpawn, null, position, rotation);
-                        if (result != null) {
-                            spawnedNPCsThisWave.add(result);
-                            Ref<EntityStore> npcRef = result.first();
-                            INonPlayerCharacter npc = result.second();
-
-var attackerComponent = store.getComponent(npcRef, AttackerComponent.getComponentType());
-
-if (attackerComponent == null){
-//    store.addComponent(npcRef, AttackerComponent.getComponentType());
-//    ^^[2026/04/02 13:28:19 SEVERE]                    [Hytale] Exception in thread Thread[#98,WorldThread - default,5,InnocuousForkJoinWorkerThreadGroup]:
-//        java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
-//        at com.hypixel.hytale.component.Archetype.validateComponents(Archetype.java:173)
-//    store.ensureComponent(npcRef, AttackerComponent.getComponentType());
-}
-
-                            // Proceed with customization...
-                setupNPCInventory(npcRef, store);
-
-//                store.getComponent(npcRef, Targetcompo)
-//                            npc.
-                        }
-
-                    }
-            );
-
-        }
+        spawnNPCs(basePos);
 //        var waveTime = 30;
         AtomicInteger waveTime = new AtomicInteger(30);
         CompletableFuture.runAsync(() -> {
@@ -209,6 +169,62 @@ if (attackerComponent == null){
         var removeAfterSeconds = 80;
         removeNPCs(removeAfterSeconds);
 //        PrefabPathHelper. //there is no remove function
+    }
+
+    private void spawnNPCs(Vector3i basePos) {
+
+        int[][] directions = {
+                {1, 0},  // +X (Ost)
+                {-1, 0}, // -X (West)
+                {0, 1},  // +Z (Nord)
+                {0, -1}  // -Z (Süd)
+        };
+
+        for (int i = 0; i < 9; i++) {
+            for (int[] dir : directions) {
+//            world.spawnEntity()
+                //TODO
+                //position and rotation
+//                var position = basePos.clone().add(0, 20, i).toVector3d();
+                var position = basePos.clone()
+                        .add(dir[0] * i, 20, dir[1] * i)
+                        .toVector3d();
+                var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
+                //todo find ground position and avoid spawning in ground
+                world.execute(
+                        () -> {
+                            var random = Random.randInt(2);
+                            var npcTypeToSpawn = "NexusAttacker_Skeleton_Archer";
+                            if (random > 0) {
+                                npcTypeToSpawn = "NexusAttacker_Goblin";
+                            }
+                            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, npcTypeToSpawn, null, position, rotation);
+                            if (result != null) {
+                                spawnedNPCsThisWave.add(result);
+                                Ref<EntityStore> npcRef = result.first();
+                                INonPlayerCharacter npc = result.second();
+
+                                var attackerComponent = store.getComponent(npcRef, AttackerComponent.getComponentType());
+
+                                if (attackerComponent == null) {
+//    store.addComponent(npcRef, AttackerComponent.getComponentType());
+//    ^^[2026/04/02 13:28:19 SEVERE]                    [Hytale] Exception in thread Thread[#98,WorldThread - default,5,InnocuousForkJoinWorkerThreadGroup]:
+//        java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
+//        at com.hypixel.hytale.component.Archetype.validateComponents(Archetype.java:173)
+//    store.ensureComponent(npcRef, AttackerComponent.getComponentType());
+                                }
+
+                                // Proceed with customization...
+                                setupNPCInventory(npcRef, store);
+
+//                store.getComponent(npcRef, Targetcompo)
+//                            npc.
+                            }
+
+                        }
+                );
+            }
+        }
     }
 
     private void setupNPCInventory(Ref<EntityStore> npcRef, Store<EntityStore> store) {
