@@ -74,7 +74,8 @@ public class WaveManager {
             gameState = GameState.COUNTDOWN;
             return true;
         }
-
+        var playerRef = Universe.get().getPlayers().get(0);
+        countdownDisplay.startCountdown(3, playerRef, true);
         world.execute(
                 () -> {
                     CompletableFuture.runAsync(() ->
@@ -87,7 +88,7 @@ public class WaveManager {
 
                                 spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
                             }
-                            , CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
+                            , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
                 }
         );
         return false;
@@ -182,7 +183,7 @@ if (attackerComponent == null){
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
 
-        countdownDisplay.startCountdown(30, world);
+        countdownDisplay.startCountdown(30, playerRef, false);
 
 //        while (getCorruption() < 10){
 //            CompletableFuture.runAsync(() -> {
