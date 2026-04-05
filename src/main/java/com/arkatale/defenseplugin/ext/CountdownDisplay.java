@@ -51,7 +51,7 @@ public class CountdownDisplay {
 
                     
                     if(isCountdown){
-                        EventTitleUtil.showEventTitleToPlayer(playerRef, Message.raw("Wave ${nextWaveNum} starts in"), Message.raw(remaining+""), false);
+                        EventTitleUtil.showEventTitleToPlayer(playerRef, Message.raw(remaining+""), Message.raw("Wave ${nextWaveNum} starts in"), false);
                     }else{
                         //                    Universe.get().sendMessage(Message.raw("Time left: " + remaining));
                         world.sendMessage(Message.raw("Time left: " + remaining));
