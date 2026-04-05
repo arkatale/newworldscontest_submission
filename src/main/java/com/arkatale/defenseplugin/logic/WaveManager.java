@@ -85,9 +85,9 @@ public class WaveManager {
         //TODO replace below because 'getPlayerRef()' is deprecated and marked for removal
         var playerRef = player.getPlayerRef();
 
-        countdownDisplay.startCountdown(3, playerRef, true);
         world.execute(
                 () -> {
+                    countdownDisplay.startCountdown(3, playerRef, true);
                     CompletableFuture.runAsync(() ->
                             {
 //                                countdownSeconds = 1;
@@ -98,7 +98,7 @@ public class WaveManager {
 
                                 spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
                             }
-                            , CompletableFuture.delayedExecutor(10, TimeUnit.SECONDS));
+                            , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
                 }
         );
         return false;
