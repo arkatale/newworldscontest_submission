@@ -16,7 +16,7 @@ public class CountdownDisplay {
     private World world;
     private PlayerRef playerRef;
 
-    public CountdownDisplay(DefendSession defendSession){
+    public CountdownDisplay(DefendSession defendSession) {
         this.defendSession = defendSession;
     }
 
@@ -26,19 +26,25 @@ public class CountdownDisplay {
         defendSession.startingPlayer.sendMessage(Message.raw(String.valueOf(seconds)));
     }
 
-    public void startCountdown(int startSeconds, PlayerRef playerRef, boolean isCountdown) {
+    public CompletableFuture<Void> startCountdown(int startSeconds, PlayerRef playerRef, boolean isCountdown) {
         this.world = Universe.get().getWorld(playerRef.getWorldUuid());
         this.playerRef = playerRef;
         AtomicInteger timer = new AtomicInteger(startSeconds);
 
-        // Wir erstellen einen Loop, der sich selbst wiederholt
-        schedulerLoop(timer, isCountdown);
+        CompletableFuture<Void> onFinished = new CompletableFuture<>();
+        schedulerLoop(timer, isCountdown, onFinished);
+
+        return onFinished; // Wir geben das Versprechen zurück, dass wir fertig werden
     }
 
-    private void schedulerLoop(AtomicInteger timer, boolean isCountdown) {
+    private void schedulerLoop(AtomicInteger timer, boolean isCountdown, CompletableFuture<Void> onFinished) {
         if (timer.get() <= 0) {
-//            Universe.get().sendMessage(Message.raw("Wave starts NOW!"));
-            world.sendMessage(Message.raw("Wave {$waveNumber} ended!"));
+            if (isCountdown) {
+
+            } else {
+                world.sendMessage(Message.raw("Wave {$waveNumber} ended!"));
+            }
+            onFinished.complete(null);
             return;
         }
 
@@ -49,17 +55,19 @@ public class CountdownDisplay {
                 //Nur alle 5s und letzte 5s dann spammen
                 if (remaining % 5 == 0 || remaining <= 5) {
 
-                    
-                    if(isCountdown){
-                        EventTitleUtil.showEventTitleToPlayer(playerRef, Message.raw(remaining+""), Message.raw("Wave ${nextWaveNum} starts in"), false);
-                    }else{
+
+                    if (isCountdown) {
+                        EventTitleUtil.showEventTitleToPlayer(playerRef, Message.raw(String.valueOf(remaining + 1)), Message.raw("Wave ${nextWaveNum} starts in"), false, (String)null, 1.2F, 0F, 0F);
+
+                        world.sendMessage(Message.raw("Countdown: " + remaining));
+                    } else {
                         //                    Universe.get().sendMessage(Message.raw("Time left: " + remaining));
                         world.sendMessage(Message.raw("Time left: " + remaining));
                     }
                 }
 
 //              erst wenn 1mal fertig dann nochmal
-                schedulerLoop(timer, isCountdown);
+                schedulerLoop(timer, isCountdown, onFinished);
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
     }

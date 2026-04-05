@@ -85,9 +85,12 @@ public class WaveManager {
         //TODO replace below because 'getPlayerRef()' is deprecated and marked for removal
         var playerRef = player.getPlayerRef();
 
+        countdownDisplay.startCountdown(3, playerRef, true).thenRun(
+                () -> {
         world.execute(
                 () -> {
-                    countdownDisplay.startCountdown(3, playerRef, true);
+
+
                     CompletableFuture.runAsync(() ->
                             {
 //                                countdownSeconds = 1;
@@ -101,6 +104,7 @@ public class WaveManager {
                             , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
                 }
         );
+                }   );
         return false;
     }
 
@@ -194,7 +198,7 @@ if (attackerComponent == null){
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
 
-        countdownDisplay.startCountdown(30, playerRef, false);
+        countdownDisplay.startCountdown(10, playerRef, false);
 
 //        while (getCorruption() < 10){
 //            CompletableFuture.runAsync(() -> {
@@ -202,7 +206,7 @@ if (attackerComponent == null){
 //            }, CompletableFuture.delayedExecutor(111, TimeUnit.SECONDS));
 //        }
 
-        var removeAfterSeconds = 30;
+        var removeAfterSeconds = 10;
         removeNPCs(removeAfterSeconds);
 //        PrefabPathHelper. //there is no remove function
     }
