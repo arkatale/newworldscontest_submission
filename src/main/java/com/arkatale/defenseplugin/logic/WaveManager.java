@@ -91,8 +91,7 @@ public class WaveManager {
                 () -> {
 
 
-                    CompletableFuture.runAsync(() ->
-                            {
+//
 //                                countdownSeconds = 1;
 //                                 startCountdown(1);
                                  //TODO morgen
@@ -100,8 +99,7 @@ public class WaveManager {
                                 //erst bei ende von welle despawn . vlt mit dem timer in npc drin
 
                                 spawnWave(); //todo anzeige wie lange noch countdown und Möglichkeit zu überspringen und gleich anfangen
-                            }
-                            , CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS));
+
                 }
         );
                 }   );

@@ -89,9 +89,9 @@
     <EXTENSION ID="com.intellij.execution.ExternalSystemRunConfigurationJavaExtension">
       <extension name="dev.ghostflyby.dcevm.config.HotswapRunConfigurationExtension">
         <HotswapConfig>
-          <option name="enable" value="false" />
-          <option name="enableHotswapAgent" value="false" />
-          <option name="inherit" value="true" />
+          <option name="enable" value="true" />
+          <option name="enableHotswapAgent" value="true" />
+          <option name="inherit" value="false" />
         </HotswapConfig>
       </extension>
     </EXTENSION>
