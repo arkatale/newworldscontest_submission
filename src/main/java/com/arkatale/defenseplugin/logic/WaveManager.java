@@ -25,6 +25,7 @@ import it.unimi.dsi.fastutil.Pair;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WaveManager {
     private final PatrolPathMarkerEntity patrolPathMarkerEntity;
@@ -172,18 +173,16 @@ if (attackerComponent == null){
             );
 
         }
-
+//        var waveTime = 30;
+        AtomicInteger waveTime = new AtomicInteger(30);
         CompletableFuture.runAsync(() -> {
             world.execute(() -> {
-//                for (var pair : spawnedNPCsThisWave) {
-//                    var npcRef = pair.key();
-////                    store.ensureComponent(npcRef, AttackerComponent.getComponentType());
-//                    //^^commented because also produces Error:
-//                    //Caused by: java.lang.IllegalStateException: Invalid component at index 6 expected class com.arkatale.defenseplugin.components.AttackerComponent but found null
-//                }
-                Universe.get().sendMessage(Message.raw("Time left in wave" ));
+                int current = waveTime.decrementAndGet(); // Zieht 1 ab und gibt Rest zurück
+                Universe.get().sendMessage(Message.raw("Test mutable: " + current));
             });
         }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
+
+        countdownDisplay.startCountdown(30, world);
 
 //        while (getCorruption() < 10){
 //            CompletableFuture.runAsync(() -> {
