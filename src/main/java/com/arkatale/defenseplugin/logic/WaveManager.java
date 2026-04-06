@@ -53,7 +53,8 @@ public class WaveManager {
     }
 
     public void cleanup(){
-        store.removeEntity(patrolPathMarkerEntity.getReference(), RemoveReason.REMOVE);
+        if(patrolPathMarkerEntity != null)
+            store.removeEntity(patrolPathMarkerEntity.getReference(), RemoveReason.REMOVE);
     }
 
     public int getCurrentWave() {

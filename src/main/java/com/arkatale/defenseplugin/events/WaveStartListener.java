@@ -4,6 +4,7 @@ import com.arkatale.defenseplugin.DefensePlugin;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.arkatale.defenseplugin.lib.ATPrefabPathHelper;
+import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
@@ -85,7 +86,8 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 //        Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
 //        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
 
-                        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+//                        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+                        PatrolPathMarkerEntity entity = null;
 
 
             Pair<Ref<EntityStore>, INonPlayerCharacter> result;
