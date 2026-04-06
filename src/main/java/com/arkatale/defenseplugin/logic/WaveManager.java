@@ -3,6 +3,7 @@ package com.arkatale.defenseplugin.logic;
 //import ch.randelshofer.fastdoubleparser.bte.ByteToIntMap;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.ext.CountdownDisplay;
+import com.arkatale.defenseplugin.util.Entities;
 import com.google.crypto.tink.subtle.Random;
 import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.component.Ref;
@@ -62,6 +63,9 @@ public class WaveManager {
     public void cleanup(){
         if(patrolPathMarkerEntity != null)
             store.removeEntity(patrolPathMarkerEntity.getReference(), RemoveReason.REMOVE);
+
+        Entities.removeCoreSiegePaths(world, toDefendPosition.toVector3d(), 15);
+
     }
 
     public int getCurrentWave() {

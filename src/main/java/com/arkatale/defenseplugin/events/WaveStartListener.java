@@ -4,6 +4,7 @@ import com.arkatale.defenseplugin.DefensePlugin;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.arkatale.defenseplugin.lib.ATPrefabPathHelper;
+import com.arkatale.defenseplugin.util.Entities;
 import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
@@ -39,7 +40,6 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
     @Override
     public void handle(int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store, @NonNull CommandBuffer<EntityStore> commandBuffer, UseBlockEvent.Pre pre) {
 
-
         var placeholderPositionToDefend = pre.getTargetBlock();
         var player = archetypeChunk.getComponent(index, Player.getComponentType());
 
@@ -50,6 +50,7 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         var playerTransform = player.getTransformComponent();
         var position = playerTransform.getPosition();
         var rotation = Vector3f.lookAt(position);
+        Entities.removeCoreSiegePaths(world, position, 15);
 
         world.execute(() -> {
             var blockToCheck = world.getBlockType(placeholderPositionToDefend);
