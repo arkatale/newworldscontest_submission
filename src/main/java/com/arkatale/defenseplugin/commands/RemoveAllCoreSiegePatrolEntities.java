@@ -1,13 +1,17 @@
 package com.arkatale.defenseplugin.commands;
 
 import com.arkatale.defenseplugin.DefensePlugin;
+import com.hypixel.hytale.builtin.path.entities.PatrolPathMarkerEntity;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.spatial.SpatialResource;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
+import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -19,27 +23,37 @@ import java.util.List;
 public class RemoveAllCoreSiegePatrolEntities extends AbstractPlayerCommand {
 
 
-    private final DefensePlugin defensePlugin;
 
-    public RemoveAllCoreSiegePatrolEntities(DefensePlugin defensePlugin) {
+    public RemoveAllCoreSiegePatrolEntities() {
         super("removeArkaTalePatrolPath", "");
 
-        this.defensePlugin = defensePlugin;
     }
 
     @Override
     protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
-//        world.getEntityStore().getStore().removeentities
+        var pos = playerRef.getTransform().getPosition();
+
+//      \src\main\java\com\arkatale\defenseplugin\systems\DefendBlockSystem.java:83
+        var entityStore = world.getEntityStore();
+        SpatialResource<Ref<EntityStore>, EntityStore> spatial = entityStore.getStore().getResource(EntityModule.get().getEntitySpatialResourceType());
+        List<Ref<EntityStore>> entities = SpatialResource.getThreadLocalReferenceList();
+        spatial.getSpatialStructure().collect(pos, 10, entities);
+        //        world.getEntityStore().getStore().removeentities
         ////        world.getEntityStore().getStore().
 //        commandContext.senderAsPlayerRef().getStore().entities
-//        for(Ref<EntityStore> entityRef : (List<Ref<EntityStore>>)objectList) {
-//
-//            var has =   store.getComponent(entityRef, Nameplate.getComponentType());
-////            Universe.get().sendMessage(Message.raw(""));
+        for(Ref<EntityStore> entityRef : entities) {
+
+//            var has =   store.getComponent(entityRef, PatrolPathMarkerEntity.getComponentType());
+//            Universe.get().sendMessage(Message.raw(""));
 //            if(has != null){
-//                store.removeEntity(entityRef, RemoveReason.UNLOAD);
-//
-//            }
+            try{
+                store.removeEntity(entityRef, RemoveReason.UNLOAD);
+
+            }catch (Exception e){
+                HytaleLogger.getLogger().atSevere().log("Couldn't remove because " + e.getMessage());
+            }
+
+            }
 //
 //        }
     }

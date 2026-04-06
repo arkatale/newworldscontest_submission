@@ -1,6 +1,7 @@
 package com.arkatale.defenseplugin;
 
 import com.arkatale.defenseplugin.commands.AddRemoveTowerComponentCommand;
+import com.arkatale.defenseplugin.commands.RemoveAllCoreSiegePatrolEntities;
 import com.arkatale.defenseplugin.commands.StartWaves;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
@@ -61,6 +62,7 @@ public class DefensePlugin extends JavaPlugin {
 //        this.getEventRegistry().register(new WaveStartListener(this));
         this.getEntityStoreRegistry().registerSystem(new WaveStartListener(this));
 
+        this.getCommandRegistry().registerCommand(new RemoveAllCoreSiegePatrolEntities());
     }
 
     @Override
