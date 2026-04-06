@@ -86,8 +86,8 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
 //        Player playerComponent = (Player)store.getComponent(ref, Player.getComponentType());
 //        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
 
-//                        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
-                        PatrolPathMarkerEntity entity = null;
+                        var entity = ATPrefabPathHelper.addMarker(store, ref, uuid, pathName, pauseTime, obsvAngle, (short)-1, 0);
+//                        PatrolPathMarkerEntity entity = null;
 
 
             Pair<Ref<EntityStore>, INonPlayerCharacter> result;
