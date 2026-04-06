@@ -198,13 +198,13 @@ public class WaveManager {
             Vector3i position = Vector3i.ZERO;
 
             if(dir == FORWARD){
-                position = basePos.clone().add(i, 20, 0);
+                position = basePos.clone().add(i, 20, 20);
             } else if (dir == RIGHT) {
-                position = basePos.clone().add(0, 20, i);
+                position = basePos.clone().add(20, 20, i);
             }else if (dir == LEFT){
-                position = basePos.clone().add(0, 20, -i);
+//                position = basePos.clone().add(0, 20, -i);
             }else if(dir == BACKWARD){
-                position = basePos.clone().add(0, 20, 0);
+//                position = basePos.clone().add(0, 20, 0);
             }
             var finalPos = position;
                 var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
