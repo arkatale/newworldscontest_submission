@@ -155,8 +155,8 @@ public class WaveManager {
         );
 //        BuilderToolsPlugin.getState(playerComponent, playerRef).setActivePrefabPath(uuid);
 
-        var basePos = toDefendPosition.clone().add(15, 0, 0);
-        spawnNPCs(basePos);
+//        var basePos = toDefendPosition.clone().add(15, 0, 0);
+        spawnNPCs(toDefendPosition);
 //        var waveTime = 30;
         AtomicInteger waveTime = new AtomicInteger(30);
         CompletableFuture.runAsync(() -> {
@@ -198,12 +198,13 @@ public class WaveManager {
             Vector3i position = Vector3i.ZERO;
 
             if(Objects.equals(dir, FORWARD)){
-                position = basePos.clone().add(i, 20, 20);
+                position = basePos.clone().add(i, 20, -20); //north x+  "east" verschoben facing south
             } else if (Objects.equals(dir, RIGHT)) {
                 position = basePos.clone().add(20, 20, i);
             }else if (Objects.equals(dir, LEFT)){
-//                position = basePos.clone().add(0, 20, -i);
+                position = basePos.clone().add(-20, 20, -i);
             }else if(Objects.equals(dir, BACKWARD)){
+                position = basePos.clone().add(i, 20, 20); //south x+  "east" verschoben facing north
 //                position = basePos.clone().add(0, 20, 0);
             }
             var finalPos = position;
