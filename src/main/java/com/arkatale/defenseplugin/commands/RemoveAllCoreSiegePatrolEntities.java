@@ -27,8 +27,8 @@ public class RemoveAllCoreSiegePatrolEntities extends AbstractPlayerCommand {
 
 
     public RemoveAllCoreSiegePatrolEntities() {
-        super("removeArkaTalePatrolPath", "");
-
+        super("removeArkaTalePatrolPath", "Remove Core Attack Points in Radius 10");
+        addAliases("removeCoreAttackPoints");
     }
 
     @Override
