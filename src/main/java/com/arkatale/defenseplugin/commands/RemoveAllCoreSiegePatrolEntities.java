@@ -1,0 +1,46 @@
+package com.arkatale.defenseplugin.commands;
+
+import com.arkatale.defenseplugin.DefensePlugin;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.RemoveReason;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.command.system.CommandContext;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
+import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.jspecify.annotations.NonNull;
+
+import java.util.List;
+
+public class RemoveAllCoreSiegePatrolEntities extends AbstractPlayerCommand {
+
+
+    private final DefensePlugin defensePlugin;
+
+    public RemoveAllCoreSiegePatrolEntities(DefensePlugin defensePlugin) {
+        super("removeArkaTalePatrolPath", "");
+
+        this.defensePlugin = defensePlugin;
+    }
+
+    @Override
+    protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
+//        world.getEntityStore().getStore().removeentities
+        ////        world.getEntityStore().getStore().
+//        commandContext.senderAsPlayerRef().getStore().entities
+//        for(Ref<EntityStore> entityRef : (List<Ref<EntityStore>>)objectList) {
+//
+//            var has =   store.getComponent(entityRef, Nameplate.getComponentType());
+////            Universe.get().sendMessage(Message.raw(""));
+//            if(has != null){
+//                store.removeEntity(entityRef, RemoveReason.UNLOAD);
+//
+//            }
+//
+//        }
+    }
+}
