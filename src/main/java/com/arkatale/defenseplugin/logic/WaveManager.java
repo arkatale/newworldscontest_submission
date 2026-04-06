@@ -9,6 +9,8 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+//import com.hypixel.hytale.math.vector.Vector3f;
+//import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.Message;
@@ -28,6 +30,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WaveManager {
+    public static final Vector3i FORWARD = new Vector3i(0, 0, -1);
+    public static final Vector3i BACKWARD = new Vector3i(0, 0, 1);
+    public static final Vector3i RIGHT = new Vector3i(1, 0, 0);
+    public static final Vector3i LEFT = new Vector3i(-1, 0, 0);
+
     private final PatrolPathMarkerEntity patrolPathMarkerEntity;
     private final DefendSession defendSession;
     private int currentWave = 0;
@@ -174,22 +181,32 @@ public class WaveManager {
 
     private void spawnNPCs(Vector3i basePos) {
 
-        int[][] directions = {
-                {1, 0},  // +X (Ost)
-                {-1, 0}, // -X (West)
-                {0, 1},  // +Z (Nord)
-                {0, -1}  // -Z (Süd)
-        };
+        var directions = Vector3i.CARDINAL_DIRECTIONS;
+        final Vector3i north = new Vector3i(0, 0, -1);;  // compile-time constant
+        final int OPTION_TWO = 2;
 
+        for (Vector3i dir : directions) {
         for (int i = 0; i < 9; i++) {
-            for (int[] dir : directions) {
+
 //            world.spawnEntity()
                 //TODO
                 //position and rotation
 //                var position = basePos.clone().add(0, 20, i).toVector3d();
-                var position = basePos.clone()
-                        .add(dir[0] * i, 20, dir[1] * i)
-                        .toVector3d();
+//                var position = basePos.clone()
+//                        .add(dir[0] * i, 20, dir[1] * i)
+//                        .toVector3d();
+            Vector3i position = Vector3i.ZERO;
+
+            if(dir == FORWARD){
+                position = basePos.clone().add(i, 20, 0);
+            } else if (dir == RIGHT) {
+                position = basePos.clone().add(0, 20, i);
+            }else if (dir == LEFT){
+                position = basePos.clone().add(0, 20, -i);
+            }else if(dir == BACKWARD){
+                position = basePos.clone().add(0, 20, 0);
+            }
+            var finalPos = position;
                 var rotation = Vector3f.lookAt(toDefendPosition.toVector3d());
                 //todo find ground position and avoid spawning in ground
                 world.execute(
@@ -199,7 +216,8 @@ public class WaveManager {
                             if (random > 0) {
                                 npcTypeToSpawn = "NexusAttacker_Goblin";
                             }
-                            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, npcTypeToSpawn, null, position, rotation);
+                            Pair<Ref<EntityStore>, INonPlayerCharacter> result = NPCPlugin.get().spawnNPC(store, npcTypeToSpawn, null, finalPos.toVector3d(), rotation);
+//                                                        Variable used in lambda expression should be final or effectively final   -. fix changed from position to finalPos which doesnt get changed afterwards
                             if (result != null) {
                                 spawnedNPCsThisWave.add(result);
                                 Ref<EntityStore> npcRef = result.first();
