@@ -49,8 +49,12 @@ public class RemoveAllCoreSiegePatrolEntities extends AbstractPlayerCommand {
 //            Universe.get().sendMessage(Message.raw(""));
 //            if(has != null){
             try{
-                Universe.get().sendMessage(Message.raw("Trying to remove" + entityRef.toString()));
-                store.removeEntity(entityRef, RemoveReason.UNLOAD);
+                var comp = store.getComponent(entityRef, Nameplate.getComponentType());
+//                var test = comp.getText();
+                if(comp != null && comp.getText().contains("ArkaTale_CoreSiege")){
+                    Universe.get().sendMessage(Message.raw("Trying to remove" + entityRef.toString()));
+                    store.removeEntity(entityRef, RemoveReason.UNLOAD);
+                }
 
             }catch (Exception e){
                 HytaleLogger.getLogger().atSevere().log("Couldn't remove because " + e.getMessage());
