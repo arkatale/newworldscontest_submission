@@ -1,11 +1,15 @@
 package com.arkatale.defenseplugin.ext;
 
 import com.arkatale.defenseplugin.logic.DefendSession;
+import com.hypixel.hytale.protocol.ItemWithAllMetadata;
+import com.hypixel.hytale.protocol.packets.buildertools.BuilderToolShowAnchor;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
+import com.hypixel.hytale.server.core.util.NotificationUtil;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +71,21 @@ public class CountdownDisplay {
                     } else {
                         //                    Universe.get().sendMessage(Message.raw("Time left: " + remaining));
                         world.sendMessage(Message.raw("Time left: " + remaining));
+//                        https://hytalemodding.dev/en/docs/guides/plugin/send-notifications
+
+//                        var playerRef = Universe.get().getPlayer(player.getUuid());
+                        var packetHandler = playerRef.getPacketHandler();
+                        var primaryMessage = Message.raw("THIS WORKS!!!").color("#00FF00");
+                        var secondaryMessage = Message.raw("This is the secondary message").color("#228B22");
+                        var icon = new ItemStack("Weapon_Sword_Mithril", 1).toPacket();
+                        NotificationUtil.sendNotification(
+                                packetHandler,
+                                primaryMessage,
+                                secondaryMessage,
+                                (ItemWithAllMetadata) icon);
+                        packetHandler.writeNoCache(new BuilderToolShowAnchor(0,0,0));
+                        packetHandler.sendPing();
+
                     }
                 }
 
