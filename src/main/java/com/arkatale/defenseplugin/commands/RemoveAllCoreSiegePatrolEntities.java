@@ -7,6 +7,7 @@ import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.protocol.packets.buildertools.BuilderToolShowAnchor;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
@@ -33,7 +34,11 @@ public class RemoveAllCoreSiegePatrolEntities extends AbstractPlayerCommand {
 
     @Override
     protected void execute(@NonNull CommandContext commandContext, @NonNull Store<EntityStore> store, @NonNull Ref<EntityStore> ref, @NonNull PlayerRef playerRef, @NonNull World world) {
+        var packetHandler = playerRef.getPacketHandler();
+
         var pos = playerRef.getTransform().getPosition();
+//        this.createAnchorEntityAt(pos, world);
+//        packetHandler.writeNoCache(new BuilderToolShowAnchor(this.anchorEntityPosition.x, this.anchorEntityPosition.y, this.anchorEntityPosition.z));
 
 //      \src\main\java\com\arkatale\defenseplugin\systems\DefendBlockSystem.java:83
         var entityStore = world.getEntityStore();

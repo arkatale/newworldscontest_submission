@@ -3,14 +3,17 @@ package com.arkatale.defenseplugin.ext;
 import com.arkatale.defenseplugin.logic.DefendSession;
 import com.hypixel.hytale.protocol.ItemWithAllMetadata;
 import com.hypixel.hytale.protocol.packets.buildertools.BuilderToolShowAnchor;
+import com.hypixel.hytale.protocol.packets.interface_.EditorBlocksChange;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.prefab.selection.standard.BlockSelection;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.util.EventTitleUtil;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -83,8 +86,17 @@ public class CountdownDisplay {
                                 primaryMessage,
                                 secondaryMessage,
                                 (ItemWithAllMetadata) icon);
-                        packetHandler.writeNoCache(new BuilderToolShowAnchor(0,0,0));
-                        packetHandler.sendPing();
+//                        packetHandler.writeNoCache(new BuilderToolShowAnchor(0,0,0));
+//                        packetHandler.sendPing();
+//C:\Users\Anwender\AppData\Roaming\Hytale\install\release\package\game\latest\Server\HytaleServer.jar!\com\hypixel\hytale\builtin\buildertools\prefabeditor\PrefabEditSessionManager.class
+
+                        BlockSelection blockSelection = new BlockSelection();
+                        EditorBlocksChange packet = ((BlockSelection) Objects.requireNonNullElseGet(blockSelection, BlockSelection::new)).toPacket();
+                        packet.skipPreviewRebuild = false;
+//                        this.skipNextPreviewRebuild = false;
+//                        var store = playerRef.get
+//                        var player = store
+                        packetHandler.write(packet);
 
                     }
                 }
