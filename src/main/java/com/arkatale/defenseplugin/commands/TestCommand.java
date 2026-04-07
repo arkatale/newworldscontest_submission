@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class TestCommand extends AbstractPlayerCommand {
 
-    public TestCommand(DefensePlugin defensePlugin) {
+    public TestCommand() {
         super("test", "");
     }
 
@@ -27,7 +27,7 @@ public class TestCommand extends AbstractPlayerCommand {
 //BuilderToolsPlugin.BuilderState.addToQueue
         BlockSelection blockSelection = new BlockSelection();
         var player = store.getComponent(ref, Player.getComponentType());
-        player.getPlayerConnection().write(((BlockSelection) Objects.requireNonNullElseGet(this.selection, BlockSelection::new)).toPacketWithSelection());
-
+        player.getPlayerConnection().write(((BlockSelection) Objects.requireNonNullElseGet(blockSelection, BlockSelection::new)).toPacketWithSelection());
+//        not showing up
     }
 }

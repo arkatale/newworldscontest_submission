@@ -3,6 +3,7 @@ package com.arkatale.defenseplugin;
 import com.arkatale.defenseplugin.commands.AddRemoveTowerComponentCommand;
 import com.arkatale.defenseplugin.commands.RemoveAllCoreSiegePatrolEntities;
 import com.arkatale.defenseplugin.commands.StartWaves;
+import com.arkatale.defenseplugin.commands.TestCommand;
 import com.arkatale.defenseplugin.components.AttackerComponent;
 import com.arkatale.defenseplugin.components.DefendBlockComponent;
 import com.arkatale.defenseplugin.components.TowerComponent;
@@ -20,6 +21,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.bouncycastle.util.test.Test;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,6 +65,7 @@ public class DefensePlugin extends JavaPlugin {
         this.getEntityStoreRegistry().registerSystem(new WaveStartListener(this));
 
         this.getCommandRegistry().registerCommand(new RemoveAllCoreSiegePatrolEntities());
+        this.getCommandRegistry().registerCommand(new TestCommand());
     }
 
     @Override
