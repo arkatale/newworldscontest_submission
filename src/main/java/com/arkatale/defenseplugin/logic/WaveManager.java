@@ -47,6 +47,8 @@ public class WaveManager {
     private ArrayList<Pair<Ref<EntityStore>, INonPlayerCharacter>> spawnedNPCsThisWave;
     CountdownDisplay countdownDisplay;
     private int corruption = 0;
+    private int waveMaxCount = 1;
+    private int waveCurrentNum = 0;
 //    private ByteToIntMap patrolPathMarkers;
 //private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
 //    PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {null};
@@ -116,7 +118,10 @@ public class WaveManager {
                 }
         );
                 }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
-                }   );
+                }   ).thenRun( () -> {
+                    //ich weiß warum das hier niemand macht - weil das so viel aufwand
+            //und macht no sense mit den thenRun weil 1s delayed executor
+        });
         return false;
     }
 
@@ -181,6 +186,11 @@ public class WaveManager {
         var removeAfterSeconds = 80;
         removeNPCs(removeAfterSeconds);
 //        PrefabPathHelper. //there is no remove function
+
+        while(waveCurrentNum < waveMaxCount){
+            //wait for wave to complete and then start next wave
+            //how? weil mit async würde ja sehr sehr viele waves starten
+        }
     }
 
     private void spawnNPCs(Vector3i basePos) {
