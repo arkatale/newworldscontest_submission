@@ -21,7 +21,6 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.bouncycastle.util.test.Test;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -83,7 +82,7 @@ public class DefensePlugin extends JavaPlugin {
         DefendSession defendSession = new DefendSession(defendPos, startingPlayer, defendPos, world, store, target);
         activeSessions.put(defendPos, defendSession);
 
-        defendSession.getWaveManager().startWaves();
+        defendSession.getWaveManager().runSingleWave(1);
         return defendSession;
     }
 }

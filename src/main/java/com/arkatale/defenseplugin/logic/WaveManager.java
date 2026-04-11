@@ -52,6 +52,40 @@ public class WaveManager {
 //    private ByteToIntMap patrolPathMarkers;
 //private final ArrayList<PatrolPathMarkerEntity> patrolPathMarkers = new ArrayList<PatrolPathMarkerEntity>();
 //    PatrolPathMarkerEntity[] mutablePatrolPathMarkers = {null};
+//diese klasse sollte anders heißen und waveManager zeug wo anders weil hier ist spawnen . egal
+    private final Queue<Integer> waveQueue = new LinkedList<>();
+    private boolean isRunning = false;
+
+    public void setupGame(int numberOfWaves) {
+        waveQueue.clear();
+        for (int i = 1; i <= numberOfWaves; i++) {
+            waveQueue.add(i);
+        }
+    }
+
+    public void startNextWave() {
+        Integer nextWave = waveQueue.poll(); // Holt die nächste Nummer und entfernt sie
+
+        if (nextWave == null) {
+            world.sendMessage(Message.raw("Alle Wellen besiegt! Sieg!"));
+            isRunning = false;
+            return;
+        }
+
+        isRunning = true;
+        // Starte die Welle und hänge die Logik für danach einfach an
+        runSingleWave(nextWave).thenRun(() -> {
+            // WICHTIG: Zurück auf den Main-Thread für die nächste Welle
+            world.execute(() -> {
+                world.sendMessage(Message.raw("Welle " + nextWave + " beendet. Nächste in 10s..."));
+
+                // Kurze Pause, dann die nächste Welle triggern
+                CompletableFuture.delayedExecutor(10, TimeUnit.SECONDS).execute(() -> {
+                    world.execute(this::startNextWave); // Kein Stack-Aufbau!
+                });
+            });
+        });
+    }
 
     public WaveManager(Vector3i toDefendPosition, World world, EntityStore entityStore, PatrolPathMarkerEntity patrolPathMarkerEntity, DefendSession defendSession) {
         this.toDefendPosition = toDefendPosition;
@@ -78,21 +112,26 @@ public class WaveManager {
         this.currentWave = currentWave;
     }
 
-    public boolean startWaves() {
+    //toTest
+    public CompletableFuture<Boolean> runSingleWave(int num) {
 //        if(spawnedNPCsThisWave ==  null){
             spawnedNPCsThisWave = new ArrayList<>();
 //        }
 
+        if(num == 0){
+            //no wave specified - do default stuff below - ahh geht ja nicht weil shit java keine wert zuweisung für also keien default params hat - wtf
+        }
+
         if (gameState != null) {
 //            this.store = world.getEntityStore();
             gameState = GameState.COUNTDOWN;
-            return true;
+            return CompletableFuture.failedFuture(null);
         }
         var player = defendSession.startingPlayer;
 
         if(player == null){
             Universe.get().sendMessage(Message.raw("Couldn't start because player is null"));
-            return false;
+            return CompletableFuture.failedFuture(null);
         }
 
 //        var playerRef = Universe.get().getPlayers().get(0);
@@ -122,7 +161,7 @@ public class WaveManager {
                     //ich weiß warum das hier niemand macht - weil das so viel aufwand
             //und macht no sense mit den thenRun weil 1s delayed executor
         });
-        return false;
+        return CompletableFuture.failedFuture(null);
     }
 
     public GameState getGameState() {
