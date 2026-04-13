@@ -161,7 +161,7 @@ public class WaveManager {
                     //ich weiß warum das hier niemand macht - weil das so viel aufwand
             //und macht no sense mit den thenRun weil 1s delayed executor
         });
-        return CompletableFuture.failedFuture(null);
+        return CompletableFuture.completedFuture(null);
     }
 
     public GameState getGameState() {
