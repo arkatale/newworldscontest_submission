@@ -156,11 +156,8 @@ public class WaveManager {
 
                 }
         );
-                }, CompletableFuture.delayedExecutor(1, TimeUnit.SECONDS));
-                }   ).thenRun( () -> {
-                    //ich weiß warum das hier niemand macht - weil das so viel aufwand
-            //und macht no sense mit den thenRun weil 1s delayed executor
-        });
+                }, CompletableFuture.delayedExecutor(1 , TimeUnit.SECONDS));
+                }   );
         return CompletableFuture.completedFuture(null);
     }
 
