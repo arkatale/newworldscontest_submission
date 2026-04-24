@@ -111,12 +111,12 @@ public class WaveStartListener extends EntityEventSystem<EntityStore, UseBlockEv
         });
         ;
 //        Universe.get().sendMessage(Message.raw("test"));
-ore
+
 
 }
 
         @Override
-        public @Nullable Query<EntitySt> getQuery() {
+        public @Nullable Query<EntityStore> getQuery() {
         return Archetype.empty();
     }
 }
