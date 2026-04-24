@@ -86,18 +86,6 @@ public class CountdownDisplay {
                                 primaryMessage,
                                 secondaryMessage,
                                 (ItemWithAllMetadata) icon);
-//                        packetHandler.writeNoCache(new BuilderToolShowAnchor(0,0,0));
-//                        packetHandler.sendPing();
-//C:\Users\Anwender\AppData\Roaming\Hytale\install\release\package\game\latest\Server\HytaleServer.jar!\com\hypixel\hytale\builtin\buildertools\prefabeditor\PrefabEditSessionManager.class
-
-                        BlockSelection blockSelection = new BlockSelection();
-                        EditorBlocksChange packet = ((BlockSelection) Objects.requireNonNullElseGet(blockSelection, BlockSelection::new)).toPacket();
-                        packet.skipPreviewRebuild = false;
-//                        this.skipNextPreviewRebuild = false;
-//                        var store = playerRef.get
-//                        var player = store
-                        packetHandler.write(packet);
-
                     }
                 }
 
